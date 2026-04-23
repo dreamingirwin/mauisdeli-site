@@ -1,0 +1,7 @@
+{
+  "name": "Turkey Club",
+  "description": "Sliced turkey with bacon, crisp lettuce, ripe tomato, and mayo on toasted white or wheat. Served with chips.",
+  "price": 14,
+  "image": "assets/images/turkey-club.jpg",
+  "promo": "Sub of the Week"
+}

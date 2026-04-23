@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "image": "assets/images/turkey-club.jpg",
+      "title": "Turkey Club",
+      "caption": "Sliced turkey, bacon, lettuce, tomato — plated with ripple chips.",
+      "category": "Sandwiches",
+      "featured": true,
+      "sort": 1
+    },
+    {
+      "image": "assets/images/turkey-club-plate.jpg",
+      "title": "Turkey Club",
+      "caption": "Quartered and ready to go, chips in the middle.",
+      "category": "Sandwiches",
+      "featured": false,
+      "sort": 2
+    }
+  ]
+}
