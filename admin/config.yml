@@ -1,0 +1,189 @@
+# ============================================================
+# Decap CMS configuration for Maui's Deli & Shop
+# ============================================================
+
+backend:
+  name: git-gateway
+  branch: main
+
+# Where uploaded images go
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+# Show a friendly site URL after saving
+site_url: https://lighthearted-babka-70d564.netlify.app
+display_url: https://lighthearted-babka-70d564.netlify.app
+logo_url: /assets/images/flame.svg
+
+# ============================================================
+# COLLECTIONS — what the owner can edit
+# ============================================================
+collections:
+
+  # ----------------------------------------------------------
+  # 1. MENU ITEMS
+  # ----------------------------------------------------------
+  - name: "menu"
+    label: "Menu Items"
+    description: "Add, edit, or hide sandwiches, tacos, drinks, and more."
+    files:
+      - name: "menu"
+        label: "Full Menu"
+        file: "data/menu.json"
+        format: "json"
+        fields:
+          - label: "Menu Items"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.name}} — ${{fields.price}}"
+            fields:
+              - { label: "Item Name", name: "name", widget: "string" }
+              - { label: "Description", name: "description", widget: "text", required: false }
+              - { label: "Price ($)", name: "price", widget: "number", value_type: "float", step: 0.01, required: false }
+              - label: "Category"
+                name: "category"
+                widget: "select"
+                options:
+                  - "Breakfast"
+                  - "Sandwiches"
+                  - "Salads"
+                  - "Tacos"
+                  - "Burritos"
+                  - "Quesadillas"
+                  - "Taco Bowls"
+                  - "Empanadas"
+                  - "Loaded Fries"
+                  - "Wraps"
+                  - "Sides"
+                  - "Coffee"
+                  - "Drinks"
+                  - "Other"
+              - { label: "Available today?", name: "available", widget: "boolean", default: true }
+              - { label: "Photo (optional)", name: "image", widget: "image", required: false }
+
+  # ----------------------------------------------------------
+  # 2. SUB OF THE WEEK
+  # ----------------------------------------------------------
+  - name: "sub_of_week"
+    label: "Sub of the Week"
+    description: "The sandwich you're featuring this week."
+    files:
+      - name: "sub"
+        label: "Sub of the Week"
+        file: "data/sub-of-week.json"
+        format: "json"
+        fields:
+          - { label: "Sub Name", name: "name", widget: "string" }
+          - { label: "Description", name: "description", widget: "text" }
+          - { label: "Price ($)", name: "price", widget: "number", value_type: "float", step: 0.01, required: false }
+          - { label: "Photo (optional)", name: "image", widget: "image", required: false }
+          - { label: "Short promo line (optional)", name: "promo", widget: "string", required: false, hint: "e.g. 'Sub of the Week' or 'This week only'" }
+
+  # ----------------------------------------------------------
+  # 3. WEEKLY / DAILY SPECIALS
+  # ----------------------------------------------------------
+  - name: "specials"
+    label: "Weekly Specials"
+    description: "The $9.99 daily specials and any other limited deals."
+    files:
+      - name: "specials"
+        label: "Specials List"
+        file: "data/specials.json"
+        format: "json"
+        fields:
+          - { label: "Banner headline (optional)", name: "headline", widget: "string", required: false }
+          - { label: "Note (optional)", name: "note", widget: "text", required: false }
+          - label: "Specials"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.label}}: {{fields.title}}"
+            fields:
+              - { label: "Day or label", name: "label", widget: "string", required: false, hint: "e.g. 'Monday' or 'Weekend Special'" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "description", widget: "text", required: false }
+              - { label: "Price ($)", name: "price", widget: "number", value_type: "float", step: 0.01, required: false }
+
+  # ----------------------------------------------------------
+  # 4. COMMUNITY NOTE / ANNOUNCEMENT
+  # ----------------------------------------------------------
+  - name: "announcement"
+    label: "Community Note"
+    description: "The short banner that appears at the top of every page."
+    files:
+      - name: "announcement"
+        label: "Community Note"
+        file: "data/announcement.json"
+        format: "json"
+        fields:
+          - { label: "Show this announcement?", name: "active", widget: "boolean", default: true }
+          - { label: "Headline", name: "headline", widget: "string", hint: "Keep it short: 'Closing early Friday', 'Thanks for the support!'" }
+          - { label: "Message", name: "message", widget: "string", required: false }
+
+  # ----------------------------------------------------------
+  # 5. FEATURED DISHES / HOUSE FAVORITES
+  # ----------------------------------------------------------
+  - name: "featured"
+    label: "Featured Dishes"
+    description: "The 'house favorites' shown on the homepage."
+    files:
+      - name: "featured"
+        label: "Featured Dishes"
+        file: "data/featured.json"
+        format: "json"
+        fields:
+          - label: "Dishes"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "Dish Name", name: "name", widget: "string" }
+              - { label: "Short Description", name: "description", widget: "text", required: false }
+              - { label: "Price ($)", name: "price", widget: "number", value_type: "float", step: 0.01, required: false }
+              - { label: "Photo", name: "image", widget: "image", required: false }
+              - { label: "Featured (show on homepage)", name: "featured", widget: "boolean", default: true }
+              - { label: "Sort order", name: "sort", widget: "number", value_type: "int", default: 1, hint: "Lower numbers show first." }
+
+  # ----------------------------------------------------------
+  # 6. GALLERY
+  # ----------------------------------------------------------
+  - name: "gallery"
+    label: "Gallery Photos"
+    description: "Real food photos from the kitchen. Add, remove, or reorder."
+    files:
+      - name: "gallery"
+        label: "Gallery"
+        file: "data/gallery.json"
+        format: "json"
+        fields:
+          - label: "Photos"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Photo", name: "image", widget: "image" }
+              - { label: "Title", name: "title", widget: "string", required: false }
+              - { label: "Short caption", name: "caption", widget: "string", required: false }
+              - { label: "Category (optional)", name: "category", widget: "string", required: false }
+              - { label: "Featured", name: "featured", widget: "boolean", default: false }
+              - { label: "Sort order", name: "sort", widget: "number", value_type: "int", default: 1 }
+
+  # ----------------------------------------------------------
+  # 7. HOURS
+  # ----------------------------------------------------------
+  - name: "hours"
+    label: "Hours"
+    description: "Update your open hours for each day."
+    files:
+      - name: "hours"
+        label: "Hours of Operation"
+        file: "data/hours.json"
+        format: "json"
+        fields:
+          - label: "Days"
+            name: "days"
+            widget: "list"
+            summary: "{{fields.day}} — {{fields.hours}}"
+            fields:
+              - { label: "Day", name: "day", widget: "string", hint: "e.g. Monday" }
+              - { label: "Hours", name: "hours", widget: "string", hint: "e.g. 7:00 AM – 7:00 PM, or 'Closed'" }
+          - { label: "Note (optional)", name: "note", widget: "string", required: false, hint: "e.g. 'Hours may vary on holidays.'" }
