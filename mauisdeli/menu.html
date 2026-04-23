@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Menu — Maui's · Wrentham, MA</title>
+<meta name="description" content="The full Maui's menu: tacos, burritos, bowls, quesadillas, sandwiches, salads, empanadas, loaded fries, and coffee. Fresh-made in Wrentham, MA.">
+<meta property="og:title" content="Maui's Deli &amp; Shop — Wrentham, MA">
+<meta property="og:description" content="Fresh-made food, coffee, shop essentials, and something a little different. Glad to be here.">
+<meta property="og:type" content="restaurant.restaurant">
+<meta property="og:url" content="https://mauisdeli.com/">
+<meta property="og:image" content="https://mauisdeli.com/assets/images/storefront-hero.png">
+<meta property="og:image:alt" content="Maui's Deli & Shop storefront illustration in Wrentham, MA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://mauisdeli.com/assets/images/storefront-hero.png">
+<link rel="icon" type="image/svg+xml" href="assets/images/flame.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<div id="announcement" class="note-strip"></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand" aria-label="Maui's Deli & Shop — home">
+      <img src="assets/images/flame.svg" alt="" width="36" height="36">
+      <span class="nav-brand-text">
+        <span class="nav-brand-name">Maui's Deli &amp; Shop</span>
+        <span class="nav-brand-sub">Food · Coffee · Essentials</span>
+      </span>
+    </a>
+    <button class="nav-toggle" aria-label="Menu">☰</button>
+    <ul class="nav-links">
+      <li><a href="menu.html">Menu <span class="caret">▾</span></a></li>
+      <li><a href="index.html#shop">Shop <span class="caret">▾</span></a></li>
+      <li><a href="contact.html#catering">Catering</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="specials.html">What's New</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-location" aria-label="Visit us in Wrentham, MA">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+        <circle cx="12" cy="10" r="3"/>
+      </svg>
+      <span class="nav-location-label">Wrentham, MA</span>
+    </a>
+  </div>
+</nav>
+
+<header class="hero hero-mini">
+  <div class="hero-inner">
+    <span class="hero-badge">Lunch · Coffee · Coming soon: Breakfast</span>
+    <h1>The Menu
+      <span class="accent">Fresh-made, fairly priced</span>
+    </h1>
+    <p class="hero-sub">Tacos, burritos, bowls, quesadillas, sandwiches, empanadas, loaded fries, coffee. Tap a category to filter, or scroll the whole menu.</p>
+  </div>
+</header>
+
+<section class="block">
+  <div id="menu-chips" class="menu-categories"></div>
+  <div id="menu"></div>
+</section>
+
+<a href="tel:+15083842393" class="call-float" aria-label="Call Maui's">
+  <span class="icon">📞</span> Call Maui's
+</a>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <h5>Maui's Deli &amp; Shop</h5>
+      <p>Fresh-made food and neighborhood shop in Wrentham, MA.</p>
+    </div>
+    <div>
+      <h5>Visit</h5>
+      <ul>
+        <li>305 Shears Street</li>
+        <li>Wrentham, MA 02093</li>
+        <li><a href="tel:+15083842393">(508) 384-2393</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Explore</h5>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="specials.html">Weekly Specials</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Hours</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© <span id="year"></span> Maui's Deli &amp; Shop · Wrentham, MA</div>
+</footer>
+
+<script src="assets/site.js"></script>
+<script>
+  renderAnnouncement('announcement');
+  renderMenu('menu');
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
