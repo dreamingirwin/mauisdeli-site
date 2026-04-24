@@ -20,7 +20,7 @@
       "name": "Tacos",
       "description": "Three corn tortillas with cheese, chipotle mayo, pico de gallo, and cilantro. Choose steak, chicken, or shrimp.",
       "price": 11,
-      "image": "",
+      "image": "/assets/uploads/tacos.jpeg",
       "featured": true,
       "sort": 3
     },
