@@ -21,6 +21,13 @@
       "sort": 1,
       "image": "/assets/uploads/tacos.jpeg",
       "title": "Tacos"
+    },
+    {
+      "featured": false,
+      "sort": 5,
+      "image": "/assets/uploads/screenshot_2026-04-24-16-44-08-74_6012fa4d4ddec268fc5c7112cbb265e7.jpg",
+      "title": "French toast",
+      "category": "Breakfast"
     }
   ]
 }
