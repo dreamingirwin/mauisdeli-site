@@ -15,6 +15,12 @@
       "category": "Sandwiches",
       "featured": false,
       "sort": 2
+    },
+    {
+      "featured": false,
+      "sort": 1,
+      "image": "/assets/uploads/tacos.jpeg",
+      "title": "Tacos"
     }
   ]
 }
