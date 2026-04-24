@@ -75,6 +75,14 @@
   <div id="sub-of-week" class="sub-feature"></div>
 </section>
 
+<!-- COMMUNITY BOARD — full list -->
+<section class="block" id="community">
+  <span class="eyebrow">Community Board</span>
+  <h2 class="section-title">Around the neighborhood.</h2>
+  <p class="section-lede">Local notes, shop updates, fundraisers, and what's happening in Wrentham.</p>
+  <div id="community-board"></div>
+</section>
+
 <section class="block" style="text-align:center">
   <h2 class="section-title">Stop by Maui's.</h2>
   <p class="section-lede" style="margin:0 auto 2rem">305 Shears Street in Wrentham. Dine in or take it to go.</p>
@@ -115,11 +123,13 @@
   <div class="footer-bottom">© <span id="year"></span> Maui's Deli &amp; Shop · Wrentham, MA</div>
 </footer>
 
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script src="assets/site.js"></script>
 <script>
   renderAnnouncement('announcement');
   renderSpecials('specials');
   renderSubOfWeek('sub-of-week');
+  renderCommunityBoard('community-board', { layout: 'list' });
   document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 </body>

@@ -1,5 +1,6 @@
 # ============================================================
 # Decap CMS configuration for Maui's Deli & Shop
+# Backend: Netlify Identity + Git Gateway
 # ============================================================
 
 backend:
@@ -24,8 +25,8 @@ collections:
   # 1. MENU ITEMS
   # ----------------------------------------------------------
   - name: "menu"
-    label: "Menu Items"
-    description: "Add, edit, or hide sandwiches, tacos, drinks, and more."
+    label: "🍽️ Menu Items"
+    description: "Add, edit, hide, or mark items as coming soon."
     files:
       - name: "menu"
         label: "Full Menu"
@@ -35,7 +36,7 @@ collections:
           - label: "Menu Items"
             name: "items"
             widget: "list"
-            summary: "{{fields.name}} — ${{fields.price}}"
+            summary: "{{fields.name}} — ${{fields.price}} ({{fields.status}})"
             fields:
               - { label: "Item Name", name: "name", widget: "string" }
               - { label: "Description", name: "description", widget: "text", required: false }
@@ -44,29 +45,66 @@ collections:
                 name: "category"
                 widget: "select"
                 options:
-                  - "Breakfast"
-                  - "Sandwiches"
-                  - "Salads"
                   - "Tacos"
                   - "Burritos"
                   - "Quesadillas"
                   - "Taco Bowls"
                   - "Empanadas"
                   - "Loaded Fries"
+                  - "Sandwiches"
+                  - "Breakfast"
+                  - "Salads"
                   - "Wraps"
-                  - "Sides"
                   - "Coffee"
+                  - "Sides"
+                  - "Ice Cream"
+                  - "Desserts"
                   - "Drinks"
+                  - "Specialties"
                   - "Other"
-              - { label: "Available today?", name: "available", widget: "boolean", default: true }
+              - label: "Status"
+                name: "status"
+                widget: "select"
+                default: "Active"
+                options:
+                  - "Active"
+                  - "Hidden"
+                  - "Coming Soon"
+                hint: "Active = visible. Hidden = not shown. Coming Soon = shown with a Coming Soon label."
+              - { label: "Featured on homepage?", name: "featured", widget: "boolean", default: false, hint: "Show this item in Neighborhood Favorites on the homepage." }
               - { label: "Photo (optional)", name: "image", widget: "image", required: false }
+              - { label: "Sort order", name: "sort", widget: "number", value_type: "int", default: 1, required: false, hint: "Lower numbers show first." }
 
   # ----------------------------------------------------------
-  # 2. SUB OF THE WEEK
+  # 2. NEIGHBORHOOD FAVORITES (homepage "Currently Loved" section)
+  # ----------------------------------------------------------
+  - name: "featured"
+    label: "⭐ Neighborhood Favorites"
+    description: "The 'currently loved' homepage section."
+    files:
+      - name: "featured"
+        label: "Neighborhood Favorites"
+        file: "data/featured.json"
+        format: "json"
+        fields:
+          - label: "Items"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "Item Name", name: "name", widget: "string" }
+              - { label: "Short Description", name: "description", widget: "text", required: false }
+              - { label: "Price ($)", name: "price", widget: "number", value_type: "float", step: 0.01, required: false }
+              - { label: "Photo", name: "image", widget: "image", required: false }
+              - { label: "Show on homepage", name: "featured", widget: "boolean", default: true }
+              - { label: "Sort order", name: "sort", widget: "number", value_type: "int", default: 1, hint: "Lower numbers show first." }
+
+  # ----------------------------------------------------------
+  # 3. SUB OF THE WEEK
   # ----------------------------------------------------------
   - name: "sub_of_week"
-    label: "Sub of the Week"
-    description: "The sandwich you're featuring this week."
+    label: "🥪 Sub of the Week"
+    description: "The sandwich you're spotlighting this week."
     files:
       - name: "sub"
         label: "Sub of the Week"
@@ -80,10 +118,10 @@ collections:
           - { label: "Short promo line (optional)", name: "promo", widget: "string", required: false, hint: "e.g. 'Sub of the Week' or 'This week only'" }
 
   # ----------------------------------------------------------
-  # 3. WEEKLY / DAILY SPECIALS
+  # 4. WEEKLY / DAILY SPECIALS
   # ----------------------------------------------------------
   - name: "specials"
-    label: "Weekly Specials"
+    label: "💸 Weekly Specials"
     description: "The $9.99 daily specials and any other limited deals."
     files:
       - name: "specials"
@@ -104,14 +142,55 @@ collections:
               - { label: "Price ($)", name: "price", widget: "number", value_type: "float", step: 0.01, required: false }
 
   # ----------------------------------------------------------
-  # 4. COMMUNITY NOTE / ANNOUNCEMENT
+  # 5. COMMUNITY BOARD (new section)
+  # ----------------------------------------------------------
+  - name: "community"
+    label: "📋 Community Board"
+    description: "Neighborhood posts, shop updates, and local events. Up to 3 show on the homepage; more on What's New."
+    files:
+      - name: "community"
+        label: "Community Posts"
+        file: "data/community.json"
+        format: "json"
+        fields:
+          - label: "Posts"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.title}} ({{fields.category}})"
+            fields:
+              - { label: "Post Title", name: "title", widget: "string" }
+              - { label: "Short Description", name: "description", widget: "text" }
+              - label: "Category"
+                name: "category"
+                widget: "select"
+                default: "Community"
+                options:
+                  - "Community"
+                  - "Shop Update"
+                  - "Local Event"
+                  - "Fundraiser"
+                  - "School"
+                  - "Sports"
+                  - "Announcement"
+                  - "Coming Soon"
+              - { label: "Date (YYYY-MM-DD)", name: "date", widget: "string", required: false, hint: "e.g. 2026-05-12" }
+              - { label: "Optional photo", name: "image", widget: "image", required: false }
+              - { label: "Pinned? (shows first)", name: "pinned", widget: "boolean", default: false }
+              - { label: "Active? (visible on site)", name: "active", widget: "boolean", default: true }
+              - { label: "Archived? (hide permanently)", name: "archived", widget: "boolean", default: false }
+              - { label: "Button text (optional)", name: "buttonText", widget: "string", required: false, hint: "e.g. 'Learn more'" }
+              - { label: "Button link (optional)", name: "buttonLink", widget: "string", required: false, hint: "e.g. https://example.com" }
+              - { label: "Sort order", name: "sortOrder", widget: "number", value_type: "int", default: 1 }
+
+  # ----------------------------------------------------------
+  # 6. STORE NEWS / ANNOUNCEMENT BAR
   # ----------------------------------------------------------
   - name: "announcement"
-    label: "Community Note"
+    label: "📣 Store News / Announcement"
     description: "The short banner that appears at the top of every page."
     files:
       - name: "announcement"
-        label: "Community Note"
+        label: "Announcement"
         file: "data/announcement.json"
         format: "json"
         fields:
@@ -120,34 +199,10 @@ collections:
           - { label: "Message", name: "message", widget: "string", required: false }
 
   # ----------------------------------------------------------
-  # 5. FEATURED DISHES / HOUSE FAVORITES
-  # ----------------------------------------------------------
-  - name: "featured"
-    label: "Featured Dishes"
-    description: "The 'house favorites' shown on the homepage."
-    files:
-      - name: "featured"
-        label: "Featured Dishes"
-        file: "data/featured.json"
-        format: "json"
-        fields:
-          - label: "Dishes"
-            name: "items"
-            widget: "list"
-            summary: "{{fields.name}}"
-            fields:
-              - { label: "Dish Name", name: "name", widget: "string" }
-              - { label: "Short Description", name: "description", widget: "text", required: false }
-              - { label: "Price ($)", name: "price", widget: "number", value_type: "float", step: 0.01, required: false }
-              - { label: "Photo", name: "image", widget: "image", required: false }
-              - { label: "Featured (show on homepage)", name: "featured", widget: "boolean", default: true }
-              - { label: "Sort order", name: "sort", widget: "number", value_type: "int", default: 1, hint: "Lower numbers show first." }
-
-  # ----------------------------------------------------------
-  # 6. GALLERY
+  # 7. GALLERY
   # ----------------------------------------------------------
   - name: "gallery"
-    label: "Gallery Photos"
+    label: "📷 Gallery Photos"
     description: "Real food photos from the kitchen. Add, remove, or reorder."
     files:
       - name: "gallery"
@@ -168,10 +223,10 @@ collections:
               - { label: "Sort order", name: "sort", widget: "number", value_type: "int", default: 1 }
 
   # ----------------------------------------------------------
-  # 7. HOURS
+  # 8. HOURS
   # ----------------------------------------------------------
   - name: "hours"
-    label: "Hours"
+    label: "🕐 Hours"
     description: "Update your open hours for each day."
     files:
       - name: "hours"
@@ -187,3 +242,33 @@ collections:
               - { label: "Day", name: "day", widget: "string", hint: "e.g. Monday" }
               - { label: "Hours", name: "hours", widget: "string", hint: "e.g. 7:00 AM – 7:00 PM, or 'Closed'" }
           - { label: "Note (optional)", name: "note", widget: "string", required: false, hint: "e.g. 'Hours may vary on holidays.'" }
+
+  # ----------------------------------------------------------
+  # 9. SETTINGS — homepage section toggles & coming-soon flags
+  # ----------------------------------------------------------
+  - name: "settings"
+    label: "⚙️ Settings"
+    description: "Turn homepage sections on/off and flip 'coming soon' labels."
+    files:
+      - name: "settings"
+        label: "Site Settings"
+        file: "data/settings.json"
+        format: "json"
+        fields:
+          - label: "Homepage sections (show or hide)"
+            name: "sections"
+            widget: "object"
+            fields:
+              - { label: "Neighborhood Favorites", name: "featured", widget: "boolean", default: true }
+              - { label: "Sub of the Week", name: "subOfWeek", widget: "boolean", default: true }
+              - { label: "Weekly Specials", name: "specials", widget: "boolean", default: true }
+              - { label: "In the Shop", name: "shop", widget: "boolean", default: true }
+              - { label: "Community Board", name: "community", widget: "boolean", default: true }
+              - { label: "Breakfast Coming Soon", name: "breakfastComingSoon", widget: "boolean", default: true }
+          - label: "Coming Soon labels"
+            name: "comingSoon"
+            widget: "object"
+            fields:
+              - { label: "Breakfast coming soon", name: "breakfast", widget: "boolean", default: true }
+              - { label: "Ice cream coming soon", name: "iceCream", widget: "boolean", default: false }
+              - { label: "Beer & wine coming soon", name: "beerWine", widget: "boolean", default: true }

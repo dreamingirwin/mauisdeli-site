@@ -108,6 +108,7 @@ async function renderFeatured(targetId, limit) {
 
   const items = data.items
     .filter(i => i.featured !== false)
+    .filter(i => (i.status || 'Active') !== 'Hidden')
     .sort((a, b) => (a.sort || 0) - (b.sort || 0));
 
   const toShow = limit ? items.slice(0, limit) : items;
@@ -117,6 +118,7 @@ async function renderFeatured(targetId, limit) {
   }
 
   el.innerHTML = toShow.map(item => {
+    const comingSoon = item.status === 'Coming Soon';
     const imageBlock = hasImage(item.image)
       ? `<div class="dish-card-image" style="background-image:url('${escapeHTML(item.image)}')"></div>`
       : `<div class="dish-card-image dish-card-image--placeholder" aria-hidden="true">
@@ -129,9 +131,9 @@ async function renderFeatured(targetId, limit) {
       <article class="dish-card">
         ${imageBlock}
         <div class="dish-card-body">
-          <h4>${escapeHTML(item.name)}</h4>
+          <h4>${escapeHTML(item.name)}${comingSoon ? '<span class="coming-soon-badge">Coming Soon</span>' : ''}</h4>
           <p>${escapeHTML(item.description || '')}</p>
-          ${item.price ? `<span class="price">${escapeHTML(fmtPrice(item.price))}</span>` : ''}
+          ${(item.price && !comingSoon) ? `<span class="price">${escapeHTML(fmtPrice(item.price))}</span>` : ''}
         </div>
       </article>
     `;
@@ -165,10 +167,18 @@ async function renderMenu(targetId) {
   const data = await loadJSON('data/menu.json');
   if (!data || !data.items) { el.innerHTML = '<p class="empty">Menu loading…</p>'; return; }
 
-  const available = data.items.filter(i => i.available !== false);
-  const bySlug = new Map();
+  // Filter: Hidden -> skip entirely. Active and Coming Soon both show (with badge for CS).
+  // Also support legacy `available: false` flag as equivalent to Hidden.
+  const visible = data.items.filter(i => {
+    const status = i.status || (i.available === false ? 'Hidden' : 'Active');
+    return status !== 'Hidden';
+  });
 
-  available.forEach(item => {
+  // Sort by sort number, then name
+  visible.sort((a, b) => (a.sort || 0) - (b.sort || 0) || String(a.name).localeCompare(String(b.name)));
+
+  const bySlug = new Map();
+  visible.forEach(item => {
     const cat = item.category || 'Other';
     if (!bySlug.has(cat)) bySlug.set(cat, []);
     bySlug.get(cat).push(item);
@@ -191,18 +201,22 @@ async function renderMenu(targetId) {
       <section class="menu-section" data-cat="${escapeHTML(cat)}">
         <h2>${escapeHTML(cat)}</h2>
         <div class="menu-grid">
-          ${items.map(it => `
-            <article class="menu-item ${it.available === false ? 'menu-item-unavailable' : ''}">
-              ${hasImage(it.image) ? `<div class="menu-item-thumb" style="background-image:url('${escapeHTML(it.image)}')"></div>` : ''}
-              <div class="menu-item-body">
-                <div class="menu-item-head">
-                  <span class="menu-item-name">${escapeHTML(it.name)}</span>
-                  ${it.price ? `<span class="menu-item-price">${escapeHTML(fmtPrice(it.price))}</span>` : ''}
+          ${items.map(it => {
+            const status = it.status || (it.available === false ? 'Hidden' : 'Active');
+            const comingSoon = status === 'Coming Soon';
+            return `
+              <article class="menu-item ${comingSoon ? 'menu-item-unavailable' : ''}">
+                ${hasImage(it.image) ? `<div class="menu-item-thumb" style="background-image:url('${escapeHTML(it.image)}')"></div>` : ''}
+                <div class="menu-item-body">
+                  <div class="menu-item-head">
+                    <span class="menu-item-name">${escapeHTML(it.name)}${comingSoon ? '<span class="coming-soon-badge">Coming Soon</span>' : ''}</span>
+                    ${(it.price && !comingSoon) ? `<span class="menu-item-price">${escapeHTML(fmtPrice(it.price))}</span>` : ''}
+                  </div>
+                  ${it.description ? `<p class="menu-item-desc">${escapeHTML(it.description)}</p>` : ''}
                 </div>
-                ${it.description ? `<p class="menu-item-desc">${escapeHTML(it.description)}</p>` : ''}
-              </div>
-            </article>
-          `).join('')}
+              </article>
+            `;
+          }).join('')}
         </div>
       </section>
     `;
@@ -273,7 +287,7 @@ async function renderHours(targetId) {
   if (!el) return;
   const data = await loadJSON('data/hours.json');
   if (!data || !data.days) {
-    el.innerHTML = '<li><span class="day">Hours</span><span class="time">Call for today's hours</span></li>';
+    el.innerHTML = '<li><span class="day">Hours</span><span class="time">Call for today\'s hours</span></li>';
     return;
   }
 
@@ -299,4 +313,108 @@ async function renderHeroBackdrop(elId) {
     el.style.backgroundImage = `linear-gradient(180deg, rgba(13,13,13,0.78), rgba(13,13,13,0.92)), url('${first.image}')`;
     el.classList.add('hero-with-image');
   }
+}
+
+// ============================================================
+// COMMUNITY BOARD
+// ============================================================
+async function renderCommunityBoard(targetId, options) {
+  const el = document.getElementById(targetId);
+  if (!el) return;
+  const opts = options || {};
+  const limit = opts.limit || null;
+  const layout = opts.layout || 'grid'; // 'grid' for homepage, 'list' for What's New
+
+  const data = await loadJSON('data/community.json');
+  if (!data || !data.items || !data.items.length) {
+    el.innerHTML = '<p class="community-empty">No community posts right now — check back soon.</p>';
+    return;
+  }
+
+  // Filter: active, not archived
+  const visible = data.items.filter(p => p.active !== false && p.archived !== true);
+
+  // Sort: pinned first, then by sortOrder (ascending), then by date (newest first)
+  visible.sort((a, b) => {
+    if ((b.pinned ? 1 : 0) !== (a.pinned ? 1 : 0)) return (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0);
+    if ((a.sortOrder || 0) !== (b.sortOrder || 0)) return (a.sortOrder || 0) - (b.sortOrder || 0);
+    return String(b.date || '').localeCompare(String(a.date || ''));
+  });
+
+  const toShow = limit ? visible.slice(0, limit) : visible;
+
+  if (!toShow.length) {
+    el.innerHTML = '<p class="community-empty">No community posts right now — check back soon.</p>';
+    return;
+  }
+
+  // Apply layout class to container
+  el.className = (layout === 'list' ? 'community-list' : 'community-grid');
+
+  el.innerHTML = toShow.map(post => {
+    const imageBlock = hasImage(post.image)
+      ? `<div class="community-card-image"><img src="${escapeHTML(post.image)}" alt="${escapeHTML(post.title)}" loading="lazy"></div>`
+      : '';
+    const dateStr = post.date ? formatPostDate(post.date) : '';
+    const cta = (post.buttonText && post.buttonLink)
+      ? `<a class="community-card-cta" href="${escapeHTML(post.buttonLink)}" target="_blank" rel="noopener">${escapeHTML(post.buttonText)} →</a>`
+      : '';
+
+    if (layout === 'list') {
+      return `
+        <article class="community-card">
+          ${imageBlock}
+          <div class="community-card-body">
+            <div class="community-card-head">
+              ${post.pinned ? '<span class="community-card-pin">📌 Pinned</span>' : ''}
+              <span class="community-card-tag">${escapeHTML(post.category || 'Community')}</span>
+              ${dateStr ? `<span class="community-card-date">${escapeHTML(dateStr)}</span>` : ''}
+            </div>
+            <h3>${escapeHTML(post.title)}</h3>
+            <p>${escapeHTML(post.description || '')}</p>
+            ${cta}
+          </div>
+        </article>
+      `;
+    }
+
+    return `
+      <article class="community-card">
+        <div class="community-card-head">
+          ${post.pinned ? '<span class="community-card-pin">📌</span>' : ''}
+          <span class="community-card-tag">${escapeHTML(post.category || 'Community')}</span>
+          ${dateStr ? `<span class="community-card-date">${escapeHTML(dateStr)}</span>` : ''}
+        </div>
+        ${imageBlock}
+        <h3>${escapeHTML(post.title)}</h3>
+        <p>${escapeHTML(post.description || '')}</p>
+        ${cta}
+      </article>
+    `;
+  }).join('');
+}
+
+function formatPostDate(iso) {
+  // Parse YYYY-MM-DD gracefully; if invalid, just return as-is
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
+  if (!m) return iso;
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const mi = parseInt(m[2], 10) - 1;
+  return `${months[mi] || m[2]} ${parseInt(m[3], 10)}, ${m[1]}`;
+}
+
+// ============================================================
+// SETTINGS — apply homepage section visibility toggles
+// Each toggleable section should have data-section="<key>" on its
+// container. If settings.sections[key] === false, the section is hidden.
+// ============================================================
+async function applySettings() {
+  const data = await loadJSON('data/settings.json');
+  if (!data || !data.sections) return;
+  document.querySelectorAll('[data-section]').forEach(el => {
+    const key = el.getAttribute('data-section');
+    if (data.sections[key] === false) {
+      el.style.display = 'none';
+    }
+  });
 }

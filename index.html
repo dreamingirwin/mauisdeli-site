@@ -232,7 +232,7 @@
 </section>
 
 <!-- FEATURED / CURRENTLY LOVED -->
-<section class="block">
+<section class="block" data-section="featured">
   <span class="eyebrow">Currently Loved</span>
   <h2 class="section-title">Neighborhood favorites.</h2>
   <p class="section-lede">What people keep coming back for right now. Rotates as we find new hits.</p>
@@ -240,7 +240,7 @@
 </section>
 
 <!-- SUB OF THE WEEK -->
-<section class="block">
+<section class="block" data-section="subOfWeek">
   <span class="eyebrow">This Week's Pick</span>
   <h2 class="section-title">Sub of the Week</h2>
   <p class="section-lede">A different sandwich we're spotlighting every week. Rotates out soon — grab it while it's on.</p>
@@ -248,7 +248,7 @@
 </section>
 
 <!-- WEEKLY SPECIALS PREVIEW -->
-<section class="specials-wrap">
+<section class="specials-wrap" data-section="specials">
   <div class="specials-banner">
     <span class="eyebrow">Every Weekday · $9.99</span>
     <div class="price-flash">$9.99</div>
@@ -262,7 +262,7 @@
 </section>
 
 <!-- IN THE SHOP -->
-<section class="block" id="shop">
+<section class="block" id="shop" data-section="shop">
   <span class="eyebrow">In the Shop</span>
   <h2 class="section-title">Neighborhood convenience.</h2>
   <p class="section-lede">
@@ -288,8 +288,19 @@
   </p>
 </section>
 
+<!-- COMMUNITY BOARD -->
+<section class="block" id="community" data-section="community">
+  <span class="eyebrow">Community Board</span>
+  <h2 class="section-title">What's happening around Wrentham.</h2>
+  <p class="section-lede">Local notes, shop updates, and what's happening around the neighborhood.</p>
+  <div id="community-board"></div>
+  <div class="community-footer">
+    <a href="specials.html#community" class="btn btn-ghost">See all community posts</a>
+  </div>
+</section>
+
 <!-- BREAKFAST COMING SOON -->
-<section class="block breakfast-tease" id="breakfast">
+<section class="block breakfast-tease" id="breakfast" data-section="breakfastComingSoon">
   <div class="breakfast-tease-inner">
     <span class="eyebrow">Coming Soon</span>
     <h2 class="section-title">Breakfast at Maui's.</h2>
@@ -344,6 +355,7 @@
   </div>
   <div class="footer-bottom">© <span id="year"></span> Maui's Deli &amp; Shop · Wrentham, MA</div>
 </footer>
+
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script src="assets/site.js"></script>
 <script>
@@ -351,6 +363,8 @@
   renderSubOfWeek('sub-of-week');
   renderFeatured('featured-dishes', 4);
   renderSpecials('specials');
+  renderCommunityBoard('community-board', { limit: 3, layout: 'grid' });
+  applySettings();
   document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 </body>
