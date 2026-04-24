@@ -1,54 +1,374 @@
 {
   "items": [
-    { "name": "Breakfast Sandwich", "description": "Choice of bread (toast or croissant) with American cheese, scrambled eggs, and bacon.", "price": 6, "category": "Breakfast", "available": true, "image": "" },
-    { "name": "Breakfast Burrito", "description": "Flour tortilla with beans, eggs, bacon, cheese, pico de gallo, and sour cream.", "price": 10, "category": "Breakfast", "available": true, "image": "" },
-
-    { "name": "BLT Sandwich", "description": "White or wheat bread with lettuce, tomato, crispy bacon, and mayo.", "price": 12, "category": "Sandwiches", "available": true, "image": "" },
-    { "name": "Roast Beef Sandwich", "description": "Sub roll with roast beef, American cheese, mayo, lettuce, and tomato.", "price": 12, "category": "Sandwiches", "available": true, "image": "" },
-    { "name": "Meatball Sub", "description": "Sub roll with meatballs, American cheese, and marinara sauce.", "price": 12, "category": "Sandwiches", "available": true, "image": "" },
-    { "name": "Chicken Salad Sandwich", "description": "White or wheat bread with chicken salad, lettuce, and tomato.", "price": 12, "category": "Sandwiches", "available": true, "image": "" },
-    { "name": "Club Sandwich", "description": "Choice of ham or turkey with bacon, mayo, lettuce, and tomato on white or wheat.", "price": 14, "category": "Sandwiches", "available": true, "image": "" },
-    { "name": "Philly Cheesesteak", "description": "Sub roll with steak, onions, peppers, mozzarella, and mayo.", "price": 12, "category": "Sandwiches", "available": true, "image": "" },
-    { "name": "Chicken Sandwich", "description": "Sub roll with chicken breast, cheese, lettuce, tomato, and onions.", "price": 12, "category": "Sandwiches", "available": true, "image": "" },
-
-    { "name": "Greek Salad", "description": "Lettuce, cucumber, olives, red onion, tomatoes, and feta cheese.", "price": 6, "category": "Salads", "available": true, "image": "" },
-    { "name": "Garden Salad", "description": "Lettuce, tomato, carrots, cucumber, and onion.", "price": 6, "category": "Salads", "available": true, "image": "" },
-    { "name": "Caesar Salad", "description": "Lettuce, parmesan, croutons, and Caesar dressing.", "price": 6, "category": "Salads", "available": true, "image": "" },
-    { "name": "Add Chicken to Any Salad", "description": "Grilled chicken add-on.", "price": 3, "category": "Salads", "available": true, "image": "" },
-
-    { "name": "Steak Tacos", "description": "Corn tortillas with cheese, chipotle mayo, pico de gallo, and cilantro. Comes with 3.", "price": 13, "category": "Tacos", "available": true, "image": "" },
-    { "name": "Shrimp Tacos", "description": "Corn tortillas with cheese, chipotle mayo, pico de gallo, and cilantro. Comes with 3.", "price": 13, "category": "Tacos", "available": true, "image": "" },
-    { "name": "Chicken Tacos", "description": "Corn tortillas with cheese, chipotle mayo, pico de gallo, and cilantro. Comes with 3.", "price": 11, "category": "Tacos", "available": true, "image": "" },
-
-    { "name": "Steak Burrito", "description": "Flour tortilla with rice, black beans, corn, pico de gallo, lettuce, and sour cream.", "price": 14, "category": "Burritos", "available": true, "image": "" },
-    { "name": "Chicken Burrito", "description": "Flour tortilla with rice, black beans, corn, pico de gallo, lettuce, and sour cream.", "price": 12, "category": "Burritos", "available": true, "image": "" },
-
-    { "name": "Steak Quesadilla", "description": "Flour tortilla with cheese and steak. Sour cream, lettuce, and pico de gallo on the side.", "price": 13, "category": "Quesadillas", "available": true, "image": "" },
-    { "name": "Shrimp Quesadilla", "description": "Flour tortilla with cheese and shrimp. Sour cream, lettuce, and pico de gallo on the side.", "price": 13, "category": "Quesadillas", "available": true, "image": "" },
-    { "name": "Chicken Quesadilla", "description": "Flour tortilla with cheese and chicken. Sour cream, lettuce, and pico de gallo on the side.", "price": 11, "category": "Quesadillas", "available": true, "image": "" },
-
-    { "name": "Steak Taco Bowl", "description": "Fried flour tortilla bowl with black beans, corn, pico de gallo, jalapeño, avocado, and sour cream.", "price": 14, "category": "Taco Bowls", "available": true, "image": "" },
-    { "name": "Chicken Taco Bowl", "description": "Fried flour tortilla bowl with black beans, corn, pico de gallo, jalapeño, avocado, and sour cream.", "price": 12, "category": "Taco Bowls", "available": true, "image": "" },
-
-    { "name": "Cheese Empanadas", "description": "Fried pastry with cheese. Comes with 2.", "price": 9, "category": "Empanadas", "available": true, "image": "" },
-    { "name": "Beef Empanadas", "description": "Fried pastry with seasoned beef. Comes with 2.", "price": 11, "category": "Empanadas", "available": true, "image": "" },
-    { "name": "Chicken Empanadas", "description": "Fried pastry with chicken. Comes with 2.", "price": 11, "category": "Empanadas", "available": true, "image": "" },
-    { "name": "Ham Empanadas", "description": "Fried pastry with ham. Comes with 2.", "price": 11, "category": "Empanadas", "available": true, "image": "" },
-
-    { "name": "Loaded Fries", "description": "Crispy fries with steak, cheese, onions, peppers, chipotle mayo, and mayo.", "price": 15, "category": "Loaded Fries", "available": true, "image": "" },
-
-    { "name": "Chicken Tenders", "description": "Golden crispy tenders served with fries and dipping sauce. Ask about today's price.", "price": null, "category": "Other", "available": true, "image": "" },
-
-    { "name": "Maui's Wrap", "description": "Flour tortilla wrap with choice of turkey, ham, or chicken, plus lettuce, tomato, mayo, and onions.", "price": 12, "category": "Wraps", "available": true, "image": "" },
-
-    { "name": "Add Fries to Sandwich", "description": "Upgrade any sandwich with a side of fries.", "price": 3, "category": "Sides", "available": true, "image": "" },
-    { "name": "Side of Fries", "description": "Crispy golden fries.", "price": 5, "category": "Sides", "available": true, "image": "" },
-
-    { "name": "Hot Coffee", "description": "Freshly brewed hot coffee.", "price": 2.50, "category": "Coffee", "available": true, "image": "" },
-    { "name": "Iced Coffee", "description": "Cold-brewed and refreshing.", "price": 2.99, "category": "Coffee", "available": true, "image": "" },
-    { "name": "Espresso", "description": "Bold single shot.", "price": 3, "category": "Coffee", "available": true, "image": "" },
-    { "name": "Latte", "description": "Espresso with steamed milk.", "price": 4.50, "category": "Coffee", "available": true, "image": "" },
-    { "name": "Iced Latte", "description": "Espresso and milk over ice.", "price": 4.50, "category": "Coffee", "available": true, "image": "" },
-    { "name": "Flavor Shot", "description": "Caramel, vanilla, hazelnut, or sugar-free vanilla. Add to any drink.", "price": 0.50, "category": "Coffee", "available": true, "image": "" }
+    {
+      "name": "Breakfast Sandwich",
+      "description": "Choice of bread (toast or croissant) with American cheese, scrambled eggs, and bacon.",
+      "price": 6,
+      "category": "Breakfast",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Breakfast Burrito",
+      "description": "Flour tortilla with beans, eggs, bacon, cheese, pico de gallo, and sour cream.",
+      "price": 10,
+      "category": "Breakfast",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "BLT Sandwich",
+      "description": "White or wheat bread with lettuce, tomato, crispy bacon, and mayo.",
+      "price": 12,
+      "category": "Sandwiches",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Roast Beef Sandwich",
+      "description": "Sub roll with roast beef, American cheese, mayo, lettuce, and tomato.",
+      "price": 12,
+      "category": "Sandwiches",
+      "available": true,
+      "image": "",
+      "featured": false,
+      "status": "Active"
+    },
+    {
+      "name": "Meatball Sub",
+      "description": "Sub roll with meatballs, American cheese, and marinara sauce.",
+      "price": 12,
+      "category": "Sandwiches",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Chicken Salad Sandwich",
+      "description": "White or wheat bread with chicken salad, lettuce, and tomato.",
+      "price": 12,
+      "category": "Sandwiches",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Club Sandwich",
+      "description": "Choice of ham or turkey with bacon, mayo, lettuce, and tomato on white or wheat.",
+      "price": 14,
+      "category": "Sandwiches",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Philly Cheesesteak",
+      "description": "Sub roll with steak, onions, peppers, mozzarella, and mayo.",
+      "price": 12,
+      "category": "Sandwiches",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Chicken Sandwich",
+      "description": "Sub roll with chicken breast, cheese, lettuce, tomato, and onions.",
+      "price": 12,
+      "category": "Sandwiches",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Greek Salad",
+      "description": "Lettuce, cucumber, olives, red onion, tomatoes, and feta cheese.",
+      "price": 6,
+      "category": "Salads",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Garden Salad",
+      "description": "Lettuce, tomato, carrots, cucumber, and onion.",
+      "price": 6,
+      "category": "Salads",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Add Chicken to Any Salad",
+      "description": "Grilled chicken add-on.",
+      "price": 3,
+      "category": "Salads",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Steak Tacos",
+      "description": "Corn tortillas with cheese, chipotle mayo, pico de gallo, and cilantro. Comes with 3.",
+      "price": 13,
+      "category": "Tacos",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Shrimp Tacos",
+      "description": "Corn tortillas with cheese, chipotle mayo, pico de gallo, and cilantro. Comes with 3.",
+      "price": 13,
+      "category": "Tacos",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Chicken Tacos",
+      "description": "Corn tortillas with cheese, chipotle mayo, pico de gallo, and cilantro. Comes with 3.",
+      "price": 11,
+      "category": "Tacos",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Steak Burrito",
+      "description": "Flour tortilla with rice, black beans, corn, pico de gallo, lettuce, and sour cream.",
+      "price": 14,
+      "category": "Burritos",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Chicken Burrito",
+      "description": "Flour tortilla with rice, black beans, corn, pico de gallo, lettuce, and sour cream.",
+      "price": 12,
+      "category": "Burritos",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Steak Quesadilla",
+      "description": "Flour tortilla with cheese and steak. Sour cream, lettuce, and pico de gallo on the side.",
+      "price": 13,
+      "category": "Quesadillas",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Shrimp Quesadilla",
+      "description": "Flour tortilla with cheese and shrimp. Sour cream, lettuce, and pico de gallo on the side.",
+      "price": 13,
+      "category": "Quesadillas",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Chicken Quesadilla",
+      "description": "Flour tortilla with cheese and chicken. Sour cream, lettuce, and pico de gallo on the side.",
+      "price": 11,
+      "category": "Quesadillas",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Steak Taco Bowl",
+      "description": "Fried flour tortilla bowl with black beans, corn, pico de gallo, jalapeño, avocado, and sour cream.",
+      "price": 14,
+      "category": "Taco Bowls",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Chicken Taco Bowl",
+      "description": "Fried flour tortilla bowl with black beans, corn, pico de gallo, jalapeño, avocado, and sour cream.",
+      "price": 12,
+      "category": "Taco Bowls",
+      "available": true,
+      "image": "/assets/uploads/unnamed.webp",
+      "featured": true,
+      "status": "Active"
+    },
+    {
+      "name": "Cheese Empanadas",
+      "description": "Fried pastry with cheese. Comes with 2.",
+      "price": 9,
+      "category": "Empanadas",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Beef Empanadas",
+      "description": "Fried pastry with seasoned beef. Comes with 2.",
+      "price": 11,
+      "category": "Empanadas",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Chicken Empanadas",
+      "description": "Fried pastry with chicken. Comes with 2.",
+      "price": 11,
+      "category": "Empanadas",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Ham Empanadas",
+      "description": "Fried pastry with ham. Comes with 2.",
+      "price": 11,
+      "category": "Empanadas",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Loaded Fries",
+      "description": "Crispy fries with steak, cheese, onions, peppers, chipotle mayo, and mayo.",
+      "price": 15,
+      "category": "Loaded Fries",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Chicken Tenders",
+      "description": "Golden crispy tenders served with fries and dipping sauce. Ask about today's price.",
+      "price": null,
+      "category": "Other",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Maui's Wrap",
+      "description": "Flour tortilla wrap with choice of turkey, ham, or chicken, plus lettuce, tomato, mayo, and onions.",
+      "price": 12,
+      "category": "Wraps",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Add Fries to Sandwich",
+      "description": "Upgrade any sandwich with a side of fries.",
+      "price": 3,
+      "category": "Sides",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Side of Fries",
+      "description": "Crispy golden fries.",
+      "price": 5,
+      "category": "Sides",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Hot Coffee",
+      "description": "Freshly brewed hot coffee.",
+      "price": 2.5,
+      "category": "Coffee",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Iced Coffee",
+      "description": "Cold-brewed and refreshing.",
+      "price": 2.99,
+      "category": "Coffee",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Espresso",
+      "description": "Bold single shot.",
+      "price": 3,
+      "category": "Coffee",
+      "available": true,
+      "image": "",
+      "featured": false,
+      "status": "Active"
+    },
+    {
+      "name": "Latte",
+      "description": "Espresso with steamed milk.",
+      "price": 4.5,
+      "category": "Coffee",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Iced Latte",
+      "description": "Espresso and milk over ice.",
+      "price": 4.5,
+      "category": "Coffee",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    },
+    {
+      "name": "Flavor Shot",
+      "description": "Caramel, vanilla, hazelnut, or sugar-free vanilla. Add to any drink.",
+      "price": 0.5,
+      "category": "Coffee",
+      "available": true,
+      "image": "",
+      "status": "Active",
+      "featured": false
+    }
   ]
 }
