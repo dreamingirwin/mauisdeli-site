@@ -14,7 +14,7 @@
       "price": 15,
       "image": "",
       "featured": true,
-      "sort": 2
+      "sort": 6
     },
     {
       "name": "Tacos",
@@ -44,9 +44,9 @@
       "name": "Taco Bowl",
       "description": "Fried flour tortilla bowl with black beans, corn, pico, jalapeño, avocado, and sour cream. Steak or chicken.",
       "price": 12,
-      "image": "",
+      "image": "/assets/uploads/unnamed.webp",
       "featured": true,
-      "sort": 6
+      "sort": 2
     },
     {
       "name": "Burrito",
