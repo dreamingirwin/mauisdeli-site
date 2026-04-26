@@ -18,7 +18,7 @@
     },
     {
       "featured": false,
-      "sort": 1,
+      "sort": 3,
       "image": "/assets/uploads/tacos.jpeg",
       "title": "Tacos"
     },
@@ -28,6 +28,14 @@
       "image": "/assets/uploads/screenshot_2026-04-24-16-44-08-74_6012fa4d4ddec268fc5c7112cbb265e7.jpg",
       "title": "French toast",
       "category": "Breakfast"
+    },
+    {
+      "featured": false,
+      "sort": 4,
+      "image": "/assets/uploads/roast-beef.jpeg",
+      "title": "Roast Beef Sandwhich",
+      "category": "Sandwhiches",
+      "caption": "Sub roll with roast beef, American cheese, mayo, lettuce, and tomato"
     }
   ]
 }
