@@ -1,7 +1,7 @@
 {
   "sections": {
     "featured": true,
-    "subOfWeek": true,
+    "subOfWeek": false,
     "specials": true,
     "shop": true,
     "community": true,
