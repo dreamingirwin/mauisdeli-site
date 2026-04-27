@@ -75,7 +75,7 @@
       "category": "Sandwiches"
     },
     {
-      "showInNeighborhoodFavorites": true,
+      "showInNeighborhoodFavorites": false,
       "price": 14,
       "name": "Club Sandwich",
       "slug": "club-sandwich",
