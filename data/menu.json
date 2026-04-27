@@ -343,7 +343,7 @@
       "category": "Loaded Fries"
     },
     {
-      "showInNeighborhoodFavorites": true,
+      "showInNeighborhoodFavorites": false,
       "price": null,
       "name": "Chicken Tenders",
       "slug": "chicken-tenders",
