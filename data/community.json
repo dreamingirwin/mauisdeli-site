@@ -12,6 +12,16 @@
       "description": "Glad to be part of the neighborhood. The reception has been wonderful. We're still adjusting to local needs. Come by we'd love to hear from you. ",
       "category": "Shop Update",
       "buttonText": ""
+    },
+    {
+      "category": "Community",
+      "pinned": false,
+      "active": true,
+      "archived": false,
+      "sortOrder": 1,
+      "title": "We're wor.king hard ",
+      "description": "Slowly acquiring more reviews. ",
+      "image": "/assets/uploads/screenshot-2026-04-27-175948.png"
     }
   ]
 }
