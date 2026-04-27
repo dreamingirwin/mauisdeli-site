@@ -4,9 +4,9 @@
       "name": "Turkey Club",
       "description": "Sliced turkey, bacon, lettuce, tomato, mayo on white or wheat. Served with chips.",
       "price": 14,
-      "image": "assets/images/turkey-club.jpg",
+      "image": "/assets/uploads/img_20260424_164456.jpg",
       "featured": true,
-      "sort": 1
+      "sort": 2
     },
     {
       "name": "Loaded Fries",
@@ -14,13 +14,13 @@
       "price": 15,
       "image": "",
       "featured": true,
-      "sort": 2
+      "sort": 6
     },
     {
       "name": "Tacos",
       "description": "Three corn tortillas with cheese, chipotle mayo, pico de gallo, and cilantro. Choose steak, chicken, or shrimp.",
       "price": 11,
-      "image": "",
+      "image": "/assets/uploads/tacos.jpeg",
       "featured": true,
       "sort": 3
     },
@@ -44,9 +44,9 @@
       "name": "Taco Bowl",
       "description": "Fried flour tortilla bowl with black beans, corn, pico, jalapeño, avocado, and sour cream. Steak or chicken.",
       "price": 12,
-      "image": "",
+      "image": "/assets/uploads/unnamed.webp",
       "featured": true,
-      "sort": 6
+      "sort": 1
     },
     {
       "name": "Burrito",
