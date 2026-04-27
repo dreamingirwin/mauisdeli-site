@@ -42,7 +42,7 @@
       "name": "Roast Beef Sandwich",
       "slug": "roast-beef-sandwich",
       "weeklySpecialDays": [],
-      "sortOrder": 0,
+      "sortOrder": 2,
       "status": "Active",
       "image": "/assets/uploads/roast-beef.jpeg",
       "description": "Sub roll with roast beef, American cheese, mayo, lettuce, and tomato.",
@@ -56,7 +56,7 @@
       "weeklySpecialDays": [
         "Monday"
       ],
-      "sortOrder": 0,
+      "sortOrder": 4,
       "status": "Active",
       "image": "/assets/uploads/meatball-grinder.png",
       "description": "Sub roll with meatballs, American cheese, and marinara sauce.",
@@ -190,7 +190,7 @@
       "weeklySpecialDays": [
         "Tuesday"
       ],
-      "sortOrder": 0,
+      "sortOrder": 3,
       "status": "Active",
       "image": "/assets/uploads/tacos.jpeg",
       "description": "Corn tortillas with cheese, chipotle mayo, pico de gallo, and cilantro. Comes with 3.",
@@ -276,7 +276,7 @@
       "name": "Chicken Taco Bowl",
       "slug": "chicken-taco-bowl",
       "weeklySpecialDays": [],
-      "sortOrder": 0,
+      "sortOrder": 1,
       "status": "Active",
       "image": "/assets/uploads/unnamed.webp",
       "description": "Fried flour tortilla bowl with black beans, corn, pico de gallo, jalapeño, avocado, and sour cream.",
