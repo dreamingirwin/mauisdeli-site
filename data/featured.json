@@ -5,7 +5,7 @@
       "description": "Sliced turkey, bacon, lettuce, tomato, mayo on white or wheat. Served with chips.",
       "price": 14,
       "image": "/assets/uploads/img_20260424_164456.jpg",
-      "featured": true,
+      "featured": false,
       "sort": 2
     },
     {
@@ -21,7 +21,7 @@
       "description": "Three corn tortillas with cheese, chipotle mayo, pico de gallo, and cilantro. Choose steak, chicken, or shrimp.",
       "price": 11,
       "image": "/assets/uploads/tacos.jpeg",
-      "featured": true,
+      "featured": false,
       "sort": 3
     },
     {
@@ -45,7 +45,7 @@
       "description": "Fried flour tortilla bowl with black beans, corn, pico, jalapeño, avocado, and sour cream. Steak or chicken.",
       "price": 12,
       "image": "/assets/uploads/unnamed.webp",
-      "featured": true,
+      "featured": false,
       "sort": 1
     },
     {
