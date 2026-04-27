@@ -1,17 +1,17 @@
 {
   "items": [
     {
-      "title": "Welcome to Maui's Deli & Shop",
-      "description": "Glad to be part of the neighborhood. Stop in and say hi — we'd love to meet you.",
-      "category": "Shop Update",
-      "date": "2026-04-01",
-      "image": "",
-      "pinned": true,
-      "active": true,
       "archived": false,
-      "buttonText": "",
+      "active": true,
       "buttonLink": "",
-      "sortOrder": 1
+      "date": "2026-04-01",
+      "sortOrder": 1,
+      "title": "Welcome to Maui's Deli & Shop",
+      "pinned": true,
+      "image": "",
+      "description": "Glad to be part of the neighborhood. The reception has been wonderful. We're still adjusting to local needs. Come by we'd love to hear from you. ",
+      "category": "Shop Update",
+      "buttonText": ""
     }
   ]
 }
