@@ -183,7 +183,7 @@
       "category": "Tacos"
     },
     {
-      "showInNeighborhoodFavorites": false,
+      "showInNeighborhoodFavorites": true,
       "price": 11,
       "name": "Chicken Tacos",
       "slug": "chicken-tacos",
