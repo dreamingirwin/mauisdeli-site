@@ -14,13 +14,13 @@
       "price": 15,
       "image": "",
       "featured": true,
-      "sort": 6
+      "sort": 2
     },
     {
       "name": "Tacos",
       "description": "Three corn tortillas with cheese, chipotle mayo, pico de gallo, and cilantro. Choose steak, chicken, or shrimp.",
       "price": 11,
-      "image": "/assets/uploads/tacos.jpeg",
+      "image": "",
       "featured": true,
       "sort": 3
     },
@@ -29,8 +29,8 @@
       "description": "Flour tortilla with cheese and your choice of meat. Sour cream and pico on the side.",
       "price": 11,
       "image": "",
-      "featured": false,
-      "sort": 9
+      "featured": true,
+      "sort": 4
     },
     {
       "name": "Cheesesteak",
@@ -44,9 +44,9 @@
       "name": "Taco Bowl",
       "description": "Fried flour tortilla bowl with black beans, corn, pico, jalapeño, avocado, and sour cream. Steak or chicken.",
       "price": 12,
-      "image": "/assets/uploads/unnamed.webp",
+      "image": "",
       "featured": true,
-      "sort": 2
+      "sort": 6
     },
     {
       "name": "Burrito",
@@ -71,14 +71,6 @@
       "image": "",
       "featured": true,
       "sort": 9
-    },
-    {
-      "featured": true,
-      "sort": 4,
-      "description": "Sub roll with roast beef, American cheese, mayo, lettuce, and tomato",
-      "name": "Roast Beef Sandwhich",
-      "price": 12,
-      "image": "/assets/uploads/roast-beef.jpeg"
     }
   ]
 }

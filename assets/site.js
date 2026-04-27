@@ -66,52 +66,117 @@ async function renderAnnouncement(targetId) {
   el.innerHTML = `<strong>${escapeHTML(data.headline)}</strong> ${escapeHTML(data.message || '')}`;
 }
 
-// Sub of the week
+// Sub of the week — prefer selectedSlug → menu.json lookup; fall back to legacy fields
 async function renderSubOfWeek(targetId) {
   const el = document.getElementById(targetId);
   if (!el) return;
   const data = await loadJSON('data/sub-of-week.json');
-  if (!data || !data.name) { el.style.display = 'none'; return; }
+  if (!data) { el.style.display = 'none'; return; }
 
-  const hasImg = hasImage(data.image);
+  // Resolve which item to display
+  let item = null;
+  if (data.selectedSlug) {
+    const menu = await loadJSON('data/menu.json');
+    const items = (menu && menu.items) || [];
+    const found = items.find(i => i.slug === data.selectedSlug);
+    if (found) {
+      const status = found.status || (found.available === false ? 'Hidden' : 'Active');
+      // Hidden = treat as no selection. Coming Soon = treat as no selection (sub of the week is meant to be active).
+      if (status === 'Active') {
+        item = {
+          name: found.name,
+          description: found.description,
+          price: found.price,
+          image: found.image,
+          promo: data.promo
+        };
+      }
+    }
+  }
+
+  // Fallback: use legacy fields directly from sub-of-week.json
+  if (!item && data.name) {
+    item = {
+      name: data.name,
+      description: data.description,
+      price: data.price,
+      image: data.image,
+      promo: data.promo
+    };
+  }
+
+  if (!item) { el.style.display = 'none'; return; }
+
+  const hasImg = hasImage(item.image);
   const imgBlock = hasImg
-    ? `<div class="sub-feature-image" style="background-image:url('${escapeHTML(data.image)}')"></div>`
+    ? `<div class="sub-feature-image" style="background-image:url('${escapeHTML(item.image)}')"></div>`
     : '';
-  const promo = data.promo
-    ? `<span class="promo">${escapeHTML(data.promo)}</span>`
+  const promo = item.promo
+    ? `<span class="promo">${escapeHTML(item.promo)}</span>`
     : `<span class="promo">Sub of the Week</span>`;
-  const price = data.price ? `<div class="price">${escapeHTML(fmtPrice(data.price))}</div>` : '';
+  const price = item.price ? `<div class="price">${escapeHTML(fmtPrice(item.price))}</div>` : '';
 
-  // When no image: stretch the body to full width so there's no empty slot
   if (!hasImg) el.classList.add('no-image');
 
   el.innerHTML = `
     <div class="sub-feature-body">
       ${promo}
-      <h3>${escapeHTML(data.name)}</h3>
-      <p class="section-lede" style="margin:0">${escapeHTML(data.description || '')}</p>
+      <h3>${escapeHTML(item.name)}</h3>
+      <p class="section-lede" style="margin:0">${escapeHTML(item.description || '')}</p>
       ${price}
     </div>
     ${imgBlock}
   `;
 }
 
-// Featured dishes
+// Featured / Neighborhood Favorites — menu.json is source of truth; featured.json is legacy fallback
 async function renderFeatured(targetId, limit) {
   const el = document.getElementById(targetId);
   if (!el) return;
-  const data = await loadJSON('data/featured.json');
-  if (!data || !data.items) {
-    el.innerHTML = '<p class="empty">Featured dishes coming soon.</p>';
-    return;
-  }
 
-  const items = data.items
+  const [menu, legacy] = await Promise.all([
+    loadJSON('data/menu.json'),
+    loadJSON('data/featured.json')
+  ]);
+
+  // Primary source: menu items flagged showInNeighborhoodFavorites
+  const fromMenu = ((menu && menu.items) || [])
+    .filter(i => i.showInNeighborhoodFavorites === true)
+    .filter(i => {
+      const status = i.status || (i.available === false ? 'Hidden' : 'Active');
+      return status !== 'Hidden';
+    })
+    .map(i => ({
+      _source: 'menu',
+      slug: i.slug,
+      name: i.name,
+      description: i.description,
+      price: i.price,
+      image: i.image,
+      sort: i.sortOrder || 0,
+      status: i.status || 'Active',
+    }));
+
+  // Fallback: legacy featured.json entries whose name doesn't match any menu item already
+  // (lets group entries like "Tacos", "Burrito", "Empanadas" continue to render)
+  const menuNames = new Set(((menu && menu.items) || []).map(i => (i.name || '').toLowerCase().trim()));
+  const fromLegacy = ((legacy && legacy.items) || [])
     .filter(i => i.featured !== false)
     .filter(i => (i.status || 'Active') !== 'Hidden')
-    .sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    .filter(i => !menuNames.has((i.name || '').toLowerCase().trim()))
+    .map(i => ({
+      _source: 'legacy',
+      name: i.name,
+      description: i.description,
+      price: i.price,
+      image: i.image,
+      sort: i.sort || 0,
+      status: i.status || 'Active',
+    }));
 
+  const items = [...fromMenu, ...fromLegacy].sort((a, b) => (a.sort || 0) - (b.sort || 0));
   const toShow = limit ? items.slice(0, limit) : items;
+
   if (!toShow.length) {
     el.innerHTML = '<p class="empty">Featured dishes coming soon.</p>';
     return;
@@ -140,22 +205,84 @@ async function renderFeatured(targetId, limit) {
   }).join('');
 }
 
-// Weekly specials
+// Weekly specials — menu.json weeklySpecialDays is source of truth; specials.json legacy fills gaps
 async function renderSpecials(targetId) {
   const el = document.getElementById(targetId);
   if (!el) return;
-  const data = await loadJSON('data/specials.json');
-  if (!data || !data.items || !data.items.length) {
+
+  const [menu, legacy] = await Promise.all([
+    loadJSON('data/menu.json'),
+    loadJSON('data/specials.json')
+  ]);
+
+  const dayOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+  // Build a quick lookup: legacy day → price (so we can use the special price even when item comes from menu.json)
+  const legacyDayPrice = {};
+  ((legacy && legacy.items) || []).forEach(s => {
+    const label = (s.label || '').trim();
+    if (label && s.price !== undefined) legacyDayPrice[label] = s.price;
+  });
+
+  // Primary: pull menu items with weeklySpecialDays set, expand into per-day rows
+  const fromMenu = [];
+  ((menu && menu.items) || []).forEach(i => {
+    const status = i.status || (i.available === false ? 'Hidden' : 'Active');
+    if (status === 'Hidden') return;
+    if (!Array.isArray(i.weeklySpecialDays) || !i.weeklySpecialDays.length) return;
+    i.weeklySpecialDays.forEach(day => {
+      // If specials.json has a price for this day, use it (e.g. $9.99). Otherwise fall back to menu price.
+      const specialPrice = (legacyDayPrice[day] !== undefined) ? legacyDayPrice[day] : i.price;
+      fromMenu.push({
+        label: day,
+        title: i.name,
+        description: i.description,
+        price: specialPrice,
+        _source: 'menu',
+        comingSoon: status === 'Coming Soon',
+      });
+    });
+  });
+
+  // Fallback: use specials.json entries whose `label` (day) isn't already covered by menu source
+  const daysCoveredByMenu = new Set(fromMenu.map(s => (s.label || '').toLowerCase()));
+  const fromLegacy = ((legacy && legacy.items) || [])
+    .filter(s => {
+      const label = (s.label || '').toLowerCase();
+      return !daysCoveredByMenu.has(label);
+    })
+    .map(s => ({
+      label: s.label,
+      title: s.title,
+      description: s.description,
+      price: s.price,
+      _source: 'legacy',
+      comingSoon: false,
+    }));
+
+  const all = [...fromMenu, ...fromLegacy];
+
+  // Sort by weekday order; non-weekday labels (e.g. "Weekend Special") sort last
+  all.sort((a, b) => {
+    const ai = dayOrder.indexOf(a.label);
+    const bi = dayOrder.indexOf(b.label);
+    if (ai === -1 && bi === -1) return 0;
+    if (ai === -1) return 1;
+    if (bi === -1) return -1;
+    return ai - bi;
+  });
+
+  if (!all.length) {
     el.innerHTML = '<p class="empty">New specials coming this week.</p>';
     return;
   }
 
-  el.innerHTML = data.items.map(s => `
+  el.innerHTML = all.map(s => `
     <article class="special-day">
       ${s.label ? `<div class="day">${escapeHTML(s.label)}</div>` : ''}
-      <div class="dish">${escapeHTML(s.title)}</div>
+      <div class="dish">${escapeHTML(s.title)}${s.comingSoon ? '<span class="coming-soon-badge">Coming Soon</span>' : ''}</div>
       ${s.description ? `<p class="desc">${escapeHTML(s.description)}</p>` : ''}
-      ${s.price ? `<span class="price">${escapeHTML(fmtPrice(s.price))}</span>` : ''}
+      ${(s.price && !s.comingSoon) ? `<span class="price">${escapeHTML(fmtPrice(s.price))}</span>` : ''}
     </article>
   `).join('');
 }
@@ -175,7 +302,11 @@ async function renderMenu(targetId) {
   });
 
   // Sort by sort number, then name
-  visible.sort((a, b) => (a.sort || 0) - (b.sort || 0) || String(a.name).localeCompare(String(b.name)));
+  visible.sort((a, b) => {
+    const sa = (a.sortOrder ?? a.sort) || 0;
+    const sb = (b.sortOrder ?? b.sort) || 0;
+    return sa - sb || String(a.name).localeCompare(String(b.name));
+  });
 
   const bySlug = new Map();
   visible.forEach(item => {
@@ -302,13 +433,19 @@ async function renderHours(targetId) {
   if (noteEl && data.note) noteEl.textContent = data.note;
 }
 
-// Hero backdrop (homepage) — uses first featured dish image with a photo
+// Hero backdrop (homepage) — uses first menu Neighborhood Favorite with a photo, falling back to legacy featured.json
 async function renderHeroBackdrop(elId) {
   const el = document.getElementById(elId);
   if (!el) return;
-  const data = await loadJSON('data/featured.json');
-  if (!data || !data.items || !data.items.length) return;
-  const first = data.items.find(i => hasImage(i.image));
+  const [menu, legacy] = await Promise.all([
+    loadJSON('data/menu.json'),
+    loadJSON('data/featured.json')
+  ]);
+  const candidates = [
+    ...(((menu && menu.items) || []).filter(i => i.showInNeighborhoodFavorites && (i.status || 'Active') === 'Active')),
+    ...(((legacy && legacy.items) || []).filter(i => i.featured !== false && (i.status || 'Active') === 'Active')),
+  ];
+  const first = candidates.find(i => hasImage(i.image));
   if (first) {
     el.style.backgroundImage = `linear-gradient(180deg, rgba(13,13,13,0.78), rgba(13,13,13,0.92)), url('${first.image}')`;
     el.classList.add('hero-with-image');

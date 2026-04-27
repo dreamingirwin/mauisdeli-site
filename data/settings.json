@@ -1,7 +1,7 @@
 {
   "sections": {
     "featured": true,
-    "subOfWeek": false,
+    "subOfWeek": true,
     "specials": true,
     "shop": true,
     "community": true,
@@ -9,7 +9,7 @@
   },
   "comingSoon": {
     "breakfast": true,
-    "iceCream": true,
+    "iceCream": false,
     "beerWine": true
   }
 }

@@ -22,11 +22,11 @@ logo_url: /assets/images/flame.svg
 collections:
 
   # ----------------------------------------------------------
-  # 1. MENU ITEMS
+  # 1. MENU ITEMS — main source of truth
   # ----------------------------------------------------------
   - name: "menu"
     label: "🍽️ Menu Items"
-    description: "Add, edit, hide, or mark items as coming soon."
+    description: "The main place to manage every item. Status, Neighborhood Favorites, and Weekly Specials are all controlled here."
     files:
       - name: "menu"
         label: "Full Menu"
@@ -39,6 +39,7 @@ collections:
             summary: "{{fields.name}} — ${{fields.price}} ({{fields.status}})"
             fields:
               - { label: "Item Name", name: "name", widget: "string" }
+              - { label: "Slug (auto-generated identifier)", name: "slug", widget: "string", required: true, hint: "Letters/numbers/dashes only. Used by Sub of the Week to point at this item. If you change the name, edit this too (e.g. 'turkey-club')." }
               - { label: "Description", name: "description", widget: "text", required: false }
               - { label: "Price ($)", name: "price", widget: "number", value_type: "float", step: 0.01, required: false }
               - label: "Category"
@@ -70,20 +71,35 @@ collections:
                   - "Active"
                   - "Hidden"
                   - "Coming Soon"
-                hint: "Active = visible. Hidden = not shown. Coming Soon = shown with a Coming Soon label."
-              - { label: "Featured on homepage?", name: "featured", widget: "boolean", default: false, hint: "Show this item in Neighborhood Favorites on the homepage." }
+                hint: "Active = visible everywhere. Hidden = not shown anywhere on the public site. Coming Soon = shown with a Coming Soon label and no price."
+              - { label: "Show in Neighborhood Favorites", name: "showInNeighborhoodFavorites", widget: "boolean", default: false, hint: "Toggle ON to feature this item on the homepage." }
+              - label: "Weekly Special days"
+                name: "weeklySpecialDays"
+                widget: "select"
+                multiple: true
+                required: false
+                default: []
+                options:
+                  - "Monday"
+                  - "Tuesday"
+                  - "Wednesday"
+                  - "Thursday"
+                  - "Friday"
+                  - "Saturday"
+                  - "Sunday"
+                hint: "Pick the days this item is the $9.99 special. Leave empty if it's not a special."
               - { label: "Photo (optional)", name: "image", widget: "image", required: false }
-              - { label: "Sort order", name: "sort", widget: "number", value_type: "int", default: 1, required: false, hint: "Lower numbers show first." }
+              - { label: "Sort order", name: "sortOrder", widget: "number", value_type: "int", default: 0, required: false, hint: "Lower numbers show first within a category. 0 is fine for most items." }
 
   # ----------------------------------------------------------
-  # 2. NEIGHBORHOOD FAVORITES (homepage "Currently Loved" section)
+  # 2. NEIGHBORHOOD FAVORITES — legacy fallback (group entries / off-menu)
   # ----------------------------------------------------------
   - name: "featured"
-    label: "⭐ Neighborhood Favorites"
-    description: "The 'currently loved' homepage section."
+    label: "⭐ Neighborhood Favorites (legacy)"
+    description: "Most homepage favorites are now controlled in 🍽️ Menu Items → 'Show in Neighborhood Favorites' toggle. This list is a legacy fallback for category-style entries (like 'Tacos' or 'Burrito') or items that aren't on the regular menu. Items here only show on the homepage if there's NO menu item with the same name."
     files:
       - name: "featured"
-        label: "Neighborhood Favorites"
+        label: "Neighborhood Favorites (legacy)"
         file: "data/featured.json"
         format: "json"
         fields:
@@ -100,32 +116,42 @@ collections:
               - { label: "Sort order", name: "sort", widget: "number", value_type: "int", default: 1, hint: "Lower numbers show first." }
 
   # ----------------------------------------------------------
-  # 3. SUB OF THE WEEK
+  # 3. SUB OF THE WEEK — picks one menu item by slug
   # ----------------------------------------------------------
   - name: "sub_of_week"
     label: "🥪 Sub of the Week"
-    description: "The sandwich you're spotlighting this week."
+    description: "Pick one item from the Menu to spotlight this week. The site pulls its name, description, price, and photo from the menu item."
     files:
       - name: "sub"
         label: "Sub of the Week"
         file: "data/sub-of-week.json"
         format: "json"
         fields:
-          - { label: "Sub Name", name: "name", widget: "string" }
-          - { label: "Description", name: "description", widget: "text" }
-          - { label: "Price ($)", name: "price", widget: "number", value_type: "float", step: 0.01, required: false }
-          - { label: "Photo (optional)", name: "image", widget: "image", required: false }
-          - { label: "Short promo line (optional)", name: "promo", widget: "string", required: false, hint: "e.g. 'Sub of the Week' or 'This week only'" }
+          - label: "Pick a Menu Item"
+            name: "selectedSlug"
+            widget: "relation"
+            collection: "menu"
+            file: "menu"
+            value_field: "items.*.slug"
+            search_fields: ["items.*.name", "items.*.slug"]
+            display_fields: ["items.*.name"]
+            required: false
+            hint: "Type the dish name to find it. Leaving this empty falls back to the manual fields below."
+          - { label: "Short promo line", name: "promo", widget: "string", required: false, default: "Sub of the Week", hint: "e.g. 'Sub of the Week' or 'This week only'." }
+          - { label: "— Manual fallback (used only if no menu item picked above) —", name: "name", widget: "string", required: false, hint: "Only fill this in to spotlight something not on the regular menu." }
+          - { label: "Manual description", name: "description", widget: "text", required: false }
+          - { label: "Manual price ($)", name: "price", widget: "number", value_type: "float", step: 0.01, required: false }
+          - { label: "Manual photo", name: "image", widget: "image", required: false }
 
   # ----------------------------------------------------------
-  # 4. WEEKLY / DAILY SPECIALS
+  # 4. WEEKLY SPECIALS — legacy fallback (off-menu daily specials)
   # ----------------------------------------------------------
   - name: "specials"
-    label: "💸 Weekly Specials"
-    description: "The $9.99 daily specials and any other limited deals."
+    label: "💸 Weekly Specials (legacy)"
+    description: "Most weekday specials are now controlled in 🍽️ Menu Items → 'Weekly Special days' field. This list is a fallback for days when the special is something not on the regular menu (e.g. 'Cheese Burger'). Days here only show if no menu item is assigned to that day."
     files:
       - name: "specials"
-        label: "Specials List"
+        label: "Specials List (legacy)"
         file: "data/specials.json"
         format: "json"
         fields:
