@@ -49,7 +49,7 @@
       "category": "Sandwiches"
     },
     {
-      "showInNeighborhoodFavorites": false,
+      "showInNeighborhoodFavorites": true,
       "price": 12,
       "name": "Meatball Sub",
       "slug": "meatball-sub",
@@ -58,7 +58,7 @@
       ],
       "sortOrder": 0,
       "status": "Active",
-      "image": "",
+      "image": "/assets/uploads/meatball-grinder.png",
       "description": "Sub roll with meatballs, American cheese, and marinara sauce.",
       "category": "Sandwiches"
     },
@@ -192,7 +192,7 @@
       ],
       "sortOrder": 0,
       "status": "Active",
-      "image": "",
+      "image": "/assets/uploads/tacos.jpeg",
       "description": "Corn tortillas with cheese, chipotle mayo, pico de gallo, and cilantro. Comes with 3.",
       "category": "Tacos"
     },
@@ -271,14 +271,14 @@
       "category": "Taco Bowls"
     },
     {
-      "showInNeighborhoodFavorites": false,
+      "showInNeighborhoodFavorites": true,
       "price": 12,
       "name": "Chicken Taco Bowl",
       "slug": "chicken-taco-bowl",
       "weeklySpecialDays": [],
       "sortOrder": 0,
       "status": "Active",
-      "image": "",
+      "image": "/assets/uploads/unnamed.webp",
       "description": "Fried flour tortilla bowl with black beans, corn, pico de gallo, jalapeño, avocado, and sour cream.",
       "category": "Taco Bowls"
     },
