@@ -13,7 +13,7 @@
       "description": "Crispy fries piled with steak, cheese, onions, peppers, chipotle mayo, and mayo.",
       "price": 15,
       "image": "",
-      "featured": true,
+      "featured": false,
       "sort": 6
     },
     {
@@ -29,7 +29,7 @@
       "description": "Flour tortilla with cheese and your choice of meat. Sour cream and pico on the side.",
       "price": 11,
       "image": "",
-      "featured": true,
+      "featured": false,
       "sort": 4
     },
     {
@@ -37,7 +37,7 @@
       "description": "Sub roll with steak, onions, peppers, mozzarella, and mayo.",
       "price": 12,
       "image": "",
-      "featured": true,
+      "featured": false,
       "sort": 5
     },
     {
@@ -53,7 +53,7 @@
       "description": "Flour tortilla with rice, black beans, corn, pico, lettuce, and sour cream. Steak or chicken.",
       "price": 12,
       "image": "",
-      "featured": true,
+      "featured": false,
       "sort": 7
     },
     {
@@ -61,7 +61,7 @@
       "description": "Fried pastry with cheese, beef, chicken, or ham. Comes with 2.",
       "price": 9,
       "image": "",
-      "featured": true,
+      "featured": false,
       "sort": 8
     },
     {
@@ -69,7 +69,7 @@
       "description": "Golden crispy tenders with fries and dipping sauce. Ask about today's price.",
       "price": null,
       "image": "",
-      "featured": true,
+      "featured": false,
       "sort": 9
     }
   ]
