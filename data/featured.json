@@ -4,24 +4,24 @@
       "name": "Turkey Club",
       "description": "Sliced turkey, bacon, lettuce, tomato, mayo on white or wheat. Served with chips.",
       "price": 14,
-      "image": "/assets/uploads/img_20260424_164456.jpg",
-      "featured": false,
-      "sort": 2
+      "image": "assets/images/turkey-club.jpg",
+      "featured": true,
+      "sort": 1
     },
     {
       "name": "Loaded Fries",
       "description": "Crispy fries piled with steak, cheese, onions, peppers, chipotle mayo, and mayo.",
       "price": 15,
       "image": "",
-      "featured": false,
-      "sort": 6
+      "featured": true,
+      "sort": 2
     },
     {
       "name": "Tacos",
       "description": "Three corn tortillas with cheese, chipotle mayo, pico de gallo, and cilantro. Choose steak, chicken, or shrimp.",
       "price": 11,
-      "image": "/assets/uploads/tacos.jpeg",
-      "featured": false,
+      "image": "",
+      "featured": true,
       "sort": 3
     },
     {
@@ -29,7 +29,7 @@
       "description": "Flour tortilla with cheese and your choice of meat. Sour cream and pico on the side.",
       "price": 11,
       "image": "",
-      "featured": false,
+      "featured": true,
       "sort": 4
     },
     {
@@ -37,23 +37,23 @@
       "description": "Sub roll with steak, onions, peppers, mozzarella, and mayo.",
       "price": 12,
       "image": "",
-      "featured": false,
+      "featured": true,
       "sort": 5
     },
     {
       "name": "Taco Bowl",
       "description": "Fried flour tortilla bowl with black beans, corn, pico, jalapeño, avocado, and sour cream. Steak or chicken.",
       "price": 12,
-      "image": "/assets/uploads/unnamed.webp",
-      "featured": false,
-      "sort": 1
+      "image": "",
+      "featured": true,
+      "sort": 6
     },
     {
       "name": "Burrito",
       "description": "Flour tortilla with rice, black beans, corn, pico, lettuce, and sour cream. Steak or chicken.",
       "price": 12,
       "image": "",
-      "featured": false,
+      "featured": true,
       "sort": 7
     },
     {
@@ -61,7 +61,7 @@
       "description": "Fried pastry with cheese, beef, chicken, or ham. Comes with 2.",
       "price": 9,
       "image": "",
-      "featured": false,
+      "featured": true,
       "sort": 8
     },
     {
@@ -69,7 +69,7 @@
       "description": "Golden crispy tenders with fries and dipping sauce. Ask about today's price.",
       "price": null,
       "image": "",
-      "featured": false,
+      "featured": true,
       "sort": 9
     }
   ]

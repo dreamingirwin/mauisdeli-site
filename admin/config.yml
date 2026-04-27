@@ -92,28 +92,12 @@ collections:
               - { label: "Sort order", name: "sortOrder", widget: "number", value_type: "int", default: 0, required: false, hint: "Lower numbers show first within a category. 0 is fine for most items." }
 
   # ----------------------------------------------------------
-  # 2. NEIGHBORHOOD FAVORITES — legacy fallback (group entries / off-menu)
+  # NEIGHBORHOOD FAVORITES collection has been REMOVED from the admin sidebar.
+  # Neighborhood Favorites are now controlled exclusively from 🍽️ Menu Items
+  # using the "Show in Neighborhood Favorites" toggle on each item.
+  # data/featured.json is kept as a backup file in the repo but is no longer
+  # an editable collection in the admin and is not read by the public site.
   # ----------------------------------------------------------
-  - name: "featured"
-    label: "⭐ Neighborhood Favorites (legacy)"
-    description: "Most homepage favorites are now controlled in 🍽️ Menu Items → 'Show in Neighborhood Favorites' toggle. This list is a legacy fallback for category-style entries (like 'Tacos' or 'Burrito') or items that aren't on the regular menu. Items here only show on the homepage if there's NO menu item with the same name."
-    files:
-      - name: "featured"
-        label: "Neighborhood Favorites (legacy)"
-        file: "data/featured.json"
-        format: "json"
-        fields:
-          - label: "Items"
-            name: "items"
-            widget: "list"
-            summary: "{{fields.name}}"
-            fields:
-              - { label: "Item Name", name: "name", widget: "string" }
-              - { label: "Short Description", name: "description", widget: "text", required: false }
-              - { label: "Price ($)", name: "price", widget: "number", value_type: "float", step: 0.01, required: false }
-              - { label: "Photo", name: "image", widget: "image", required: false }
-              - { label: "Show on homepage", name: "featured", widget: "boolean", default: true }
-              - { label: "Sort order", name: "sort", widget: "number", value_type: "int", default: 1, hint: "Lower numbers show first." }
 
   # ----------------------------------------------------------
   # 3. SUB OF THE WEEK — picks one menu item by slug

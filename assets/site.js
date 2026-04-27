@@ -66,22 +66,27 @@ async function renderAnnouncement(targetId) {
   el.innerHTML = `<strong>${escapeHTML(data.headline)}</strong> ${escapeHTML(data.message || '')}`;
 }
 
-// Sub of the week — prefer selectedSlug → menu.json lookup; fall back to legacy fields
+// Sub of the week — selectedSlug authoritatively selects a menu item when it matches.
+//   - Match found, Active: show that menu item.
+//   - Match found, Hidden or Coming Soon: hide the Sub of the Week section.
+//   - selectedSlug empty OR no matching menu item: fall back to manual fields in sub-of-week.json.
 async function renderSubOfWeek(targetId) {
   const el = document.getElementById(targetId);
   if (!el) return;
   const data = await loadJSON('data/sub-of-week.json');
   if (!data) { el.style.display = 'none'; return; }
 
-  // Resolve which item to display
   let item = null;
+
   if (data.selectedSlug) {
     const menu = await loadJSON('data/menu.json');
     const items = (menu && menu.items) || [];
     const found = items.find(i => i.slug === data.selectedSlug);
+
     if (found) {
+      // Slug matches a real menu item: that menu item is authoritative.
+      // Do NOT fall back to legacy manual fields when slug points to an existing item.
       const status = found.status || (found.available === false ? 'Hidden' : 'Active');
-      // Hidden = treat as no selection. Coming Soon = treat as no selection (sub of the week is meant to be active).
       if (status === 'Active') {
         item = {
           name: found.name,
@@ -90,11 +95,16 @@ async function renderSubOfWeek(targetId) {
           image: found.image,
           promo: data.promo
         };
+      } else {
+        // Hidden or Coming Soon menu item: hide the section, no fallback.
+        el.style.display = 'none';
+        return;
       }
     }
+    // If slug set but no matching menu item, fall through to legacy fallback below.
   }
 
-  // Fallback: use legacy fields directly from sub-of-week.json
+  // Legacy fallback: only used when selectedSlug is empty OR doesn't match any menu item.
   if (!item && data.name) {
     item = {
       name: data.name,
@@ -129,52 +139,32 @@ async function renderSubOfWeek(targetId) {
   `;
 }
 
-// Featured / Neighborhood Favorites — menu.json is source of truth; featured.json is legacy fallback
+// Neighborhood Favorites — menu.json is the only source.
+// Items are controlled by the showInNeighborhoodFavorites toggle on each menu item.
+// data/featured.json is retained as a legacy backup but no longer mixed in here.
 async function renderFeatured(targetId, limit) {
   const el = document.getElementById(targetId);
   if (!el) return;
 
-  const [menu, legacy] = await Promise.all([
-    loadJSON('data/menu.json'),
-    loadJSON('data/featured.json')
-  ]);
+  const menu = await loadJSON('data/menu.json');
 
-  // Primary source: menu items flagged showInNeighborhoodFavorites
-  const fromMenu = ((menu && menu.items) || [])
+  const items = ((menu && menu.items) || [])
     .filter(i => i.showInNeighborhoodFavorites === true)
     .filter(i => {
       const status = i.status || (i.available === false ? 'Hidden' : 'Active');
       return status !== 'Hidden';
     })
     .map(i => ({
-      _source: 'menu',
       slug: i.slug,
       name: i.name,
       description: i.description,
       price: i.price,
       image: i.image,
-      sort: i.sortOrder || 0,
+      sort: (i.sortOrder !== undefined ? i.sortOrder : (i.sort || 0)),
       status: i.status || 'Active',
-    }));
+    }))
+    .sort((a, b) => (a.sort || 0) - (b.sort || 0));
 
-  // Fallback: legacy featured.json entries whose name doesn't match any menu item already
-  // (lets group entries like "Tacos", "Burrito", "Empanadas" continue to render)
-  const menuNames = new Set(((menu && menu.items) || []).map(i => (i.name || '').toLowerCase().trim()));
-  const fromLegacy = ((legacy && legacy.items) || [])
-    .filter(i => i.featured !== false)
-    .filter(i => (i.status || 'Active') !== 'Hidden')
-    .filter(i => !menuNames.has((i.name || '').toLowerCase().trim()))
-    .map(i => ({
-      _source: 'legacy',
-      name: i.name,
-      description: i.description,
-      price: i.price,
-      image: i.image,
-      sort: i.sort || 0,
-      status: i.status || 'Active',
-    }));
-
-  const items = [...fromMenu, ...fromLegacy].sort((a, b) => (a.sort || 0) - (b.sort || 0));
   const toShow = limit ? items.slice(0, limit) : items;
 
   if (!toShow.length) {
@@ -205,7 +195,10 @@ async function renderFeatured(targetId, limit) {
   }).join('');
 }
 
-// Weekly specials — menu.json weeklySpecialDays is source of truth; specials.json legacy fills gaps
+// Weekly specials — menu.json weeklySpecialDays is the authoritative source for which days
+// are "owned" by the menu system. specials.json is only used for days NOT claimed by any menu item.
+// Hidden menu items still claim their assigned days (they just don't render) — preventing the
+// legacy specials.json fallback from resurrecting a day that the owner has hidden.
 async function renderSpecials(targetId) {
   const el = document.getElementById(targetId);
   if (!el) return;
@@ -224,39 +217,46 @@ async function renderSpecials(targetId) {
     if (label && s.price !== undefined) legacyDayPrice[label] = s.price;
   });
 
-  // Primary: pull menu items with weeklySpecialDays set, expand into per-day rows
+  // PASS 1: collect every day claimed by ANY menu item (regardless of status),
+  // so a Hidden item's day can't be filled in by legacy specials.json.
+  const daysClaimedByMenu = new Set();
+  ((menu && menu.items) || []).forEach(i => {
+    if (!Array.isArray(i.weeklySpecialDays)) return;
+    i.weeklySpecialDays.forEach(day => {
+      if (day) daysClaimedByMenu.add(String(day).toLowerCase());
+    });
+  });
+
+  // PASS 2: build display rows from menu items that are NOT Hidden.
+  // Hidden items contribute nothing visible but their day is already claimed (above).
   const fromMenu = [];
   ((menu && menu.items) || []).forEach(i => {
     const status = i.status || (i.available === false ? 'Hidden' : 'Active');
     if (status === 'Hidden') return;
     if (!Array.isArray(i.weeklySpecialDays) || !i.weeklySpecialDays.length) return;
     i.weeklySpecialDays.forEach(day => {
-      // If specials.json has a price for this day, use it (e.g. $9.99). Otherwise fall back to menu price.
       const specialPrice = (legacyDayPrice[day] !== undefined) ? legacyDayPrice[day] : i.price;
       fromMenu.push({
         label: day,
         title: i.name,
         description: i.description,
         price: specialPrice,
-        _source: 'menu',
         comingSoon: status === 'Coming Soon',
       });
     });
   });
 
-  // Fallback: use specials.json entries whose `label` (day) isn't already covered by menu source
-  const daysCoveredByMenu = new Set(fromMenu.map(s => (s.label || '').toLowerCase()));
+  // Legacy fallback: only days that NO menu item has claimed.
   const fromLegacy = ((legacy && legacy.items) || [])
     .filter(s => {
       const label = (s.label || '').toLowerCase();
-      return !daysCoveredByMenu.has(label);
+      return !daysClaimedByMenu.has(label);
     })
     .map(s => ({
       label: s.label,
       title: s.title,
       description: s.description,
       price: s.price,
-      _source: 'legacy',
       comingSoon: false,
     }));
 
@@ -433,18 +433,13 @@ async function renderHours(targetId) {
   if (noteEl && data.note) noteEl.textContent = data.note;
 }
 
-// Hero backdrop (homepage) — uses first menu Neighborhood Favorite with a photo, falling back to legacy featured.json
+// Hero backdrop (homepage) — uses first menu Neighborhood Favorite with a photo
 async function renderHeroBackdrop(elId) {
   const el = document.getElementById(elId);
   if (!el) return;
-  const [menu, legacy] = await Promise.all([
-    loadJSON('data/menu.json'),
-    loadJSON('data/featured.json')
-  ]);
-  const candidates = [
-    ...(((menu && menu.items) || []).filter(i => i.showInNeighborhoodFavorites && (i.status || 'Active') === 'Active')),
-    ...(((legacy && legacy.items) || []).filter(i => i.featured !== false && (i.status || 'Active') === 'Active')),
-  ];
+  const menu = await loadJSON('data/menu.json');
+  const candidates = ((menu && menu.items) || [])
+    .filter(i => i.showInNeighborhoodFavorites && (i.status || 'Active') === 'Active');
   const first = candidates.find(i => hasImage(i.image));
   if (first) {
     el.style.backgroundImage = `linear-gradient(180deg, rgba(13,13,13,0.78), rgba(13,13,13,0.92)), url('${first.image}')`;

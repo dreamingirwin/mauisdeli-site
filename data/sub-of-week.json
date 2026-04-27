@@ -1,8 +1,8 @@
 {
-  "selectedSlug": "meatball-sub",
+  "selectedSlug": "club-sandwich",
   "promo": "Sub of the Week",
-  "name": "Roast beef Sandwich ",
-  "description": "Sub roll with roast beef, American cheese, mayo, lettuce, and tomato.",
-  "price": 12,
-  "image": "/assets/uploads/roast-beef.jpeg"
+  "name": "Turkey Club",
+  "description": "Sliced turkey with bacon, crisp lettuce, ripe tomato, and mayo on toasted white or wheat. Served with chips.",
+  "price": 14,
+  "image": "assets/images/turkey-club.jpg"
 }
