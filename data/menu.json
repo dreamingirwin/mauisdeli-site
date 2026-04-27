@@ -87,7 +87,7 @@
       "category": "Sandwiches"
     },
     {
-      "showInNeighborhoodFavorites": true,
+      "showInNeighborhoodFavorites": false,
       "price": 12,
       "name": "Philly Cheesesteak",
       "slug": "philly-cheesesteak",
@@ -331,7 +331,7 @@
       "category": "Empanadas"
     },
     {
-      "showInNeighborhoodFavorites": true,
+      "showInNeighborhoodFavorites": false,
       "price": 15,
       "name": "Loaded Fries",
       "slug": "loaded-fries",
