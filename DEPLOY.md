@@ -1,14 +1,15 @@
 # Deployment Guide — Maui's Deli Website
 
-This site is static HTML + JSON + Decap CMS. Hosts on Cloudflare Pages for free.
+This site is static HTML + JSON + Decap CMS. Hosts on **Netlify** for free, with **Netlify Identity + Git Gateway** powering the owner's admin area at `/admin/` (Maui's Office).
 
 ## What you're deploying
 
 ```
 mauisdeli/
 ├── index.html, menu.html, specials.html, gallery.html, contact.html
+├── _headers                        ← Netlify security headers
 ├── assets/styles.css, assets/site.js, assets/images/, assets/uploads/
-├── data/*.json                  ← CMS writes here
+├── data/*.json                     ← Owner edits these via Decap CMS
 └── admin/index.html, admin/config.yml
 ```
 
@@ -17,92 +18,76 @@ mauisdeli/
 ## Step 1 — Put the code on GitHub
 
 1. Create a new GitHub repo, e.g. `mauisdeli` (private is fine).
-2. Upload every file in this folder to the repo root.
-3. Note the repo name format: `YOUR-GITHUB-USER/mauisdeli`.
+2. Push every file in this folder to the repo root.
+3. Note the repo path: `YOUR-GITHUB-USER/mauisdeli`.
 
 ---
 
-## Step 2 — Deploy to Cloudflare Pages
+## Step 2 — Deploy to Netlify
 
-1. Go to **Cloudflare Dashboard → Workers & Pages → Create → Pages → Connect to Git**.
+1. Go to **Netlify Dashboard → Add new site → Import an existing project → GitHub**.
 2. Authorize GitHub and pick the `mauisdeli` repo.
 3. Build settings:
-   - **Framework preset**: None
-   - **Build command**: *(leave empty)*
-   - **Build output directory**: `/` (root)
-4. Deploy.
-5. Once it's live, go to **Custom Domains** and add `mauisdeli.com`.
+   - **Branch to deploy**: `main`
+   - **Build command**: *(leave empty — this is a plain static site)*
+   - **Publish directory**: `/` (root) or leave blank
+4. Deploy. Netlify will give you a temporary URL like `https://lighthearted-babka-70d564.netlify.app`.
+5. Open that URL and confirm the public site loads correctly.
+
+The `_headers` file at the repo root is picked up automatically — Netlify serves the security headers it defines on every response.
 
 ---
 
-## Step 3 — Set up the CMS login (Decap + GitHub OAuth)
+## Step 3 — Enable Netlify Identity (owner login)
 
-Decap CMS logs the owner in with their GitHub account. That requires a tiny OAuth proxy. The easiest free path is a **Cloudflare Worker**.
+The admin area at `/admin/` uses **Netlify Identity** to authenticate the owner, and **Git Gateway** to let the CMS publish edits back to the GitHub repo. No GitHub OAuth app or Cloudflare Worker is needed — both pieces live inside Netlify.
 
-### 3a. Create a GitHub OAuth App
+### 3a. Turn on Identity
 
-1. GitHub → **Settings → Developer settings → OAuth Apps → New OAuth App**.
-2. Fill in:
-   - **Application name**: `Maui's Deli CMS`
-   - **Homepage URL**: `https://mauisdeli.com`
-   - **Authorization callback URL**: `https://decap-proxy.YOURNAME.workers.dev/callback`
-     *(You'll get this URL in 3b — come back and update.)*
-3. Save. Copy the **Client ID** and generate a **Client Secret**.
+1. In the Netlify dashboard → your site → **Integrations → Identity → Enable Identity**.
+2. Under **Registration preferences**, set it to **Invite only**. (This keeps the public from creating accounts.)
+3. *(Optional but recommended)* Under **External providers**, leave Google/GitHub providers off unless you specifically need them. Email + password is enough.
 
-### 3b. Deploy the OAuth proxy (Cloudflare Worker)
+### 3b. Turn on Git Gateway
 
-Use the open-source `decap-proxy` Worker. Takes about 3 minutes:
+1. Same Identity page → scroll to **Services → Git Gateway → Enable Git Gateway**.
+2. Netlify will request a GitHub access token on your behalf the first time. Approve it for the repo.
 
-1. Go to Cloudflare → **Workers & Pages → Create Worker**.
-2. Name it `decap-proxy`, hit Deploy to get a starter, then **Edit Code**.
-3. Replace the default code with the template from:
-   https://github.com/sterlingwes/decap-proxy
-   *(Or search "decap cms cloudflare worker oauth" — any of the published
-   single-file Workers work. The proxy is <100 lines of JS.)*
-4. In the Worker's **Settings → Variables**, add:
-   - `GITHUB_CLIENT_ID` = *(from 3a)*
-   - `GITHUB_CLIENT_SECRET` = *(from 3a)*
-5. Deploy. Copy the Worker URL (e.g. `https://decap-proxy.yourname.workers.dev`).
-6. Go back to your GitHub OAuth App and paste that URL + `/callback` into the callback URL field.
+That's it for the admin login wiring. There's nothing to paste into `admin/config.yml` — the `backend: name: git-gateway` line is already set, and Netlify Identity injects the auth automatically.
 
-### 3c. Update the CMS config
+### 3c. Invite the owner
 
-Open `admin/config.yml` in your repo and change these two lines:
+1. Identity → **Invite users** → enter the owner's email → send invite.
+2. Owner gets an email with a link to set a password. Once accepted, they're a registered Identity user with admin access.
+3. Send them this link: `https://mauisdeli.com/admin/`
 
-```yaml
-backend:
-  name: github
-  repo: YOUR-GITHUB-USER/mauisdeli          # ← your repo
-  branch: main
-  base_url: https://decap-proxy.YOURNAME.workers.dev   # ← your Worker URL
-  auth_endpoint: auth
-```
-
-Commit and push. Cloudflare Pages will auto-deploy.
+To revoke access later: Identity → Users → click the user → **Delete**.
 
 ---
 
-## Step 4 — Give the owner access
+## Step 4 — Point the custom domain
 
-1. In GitHub, go to the repo → **Settings → Collaborators → Add people**.
-2. Invite the owner's GitHub username (have them sign up for a free account if needed).
-3. Accept the invite on their side.
-4. Send them this link: `https://mauisdeli.com/admin/`
-5. They click **Login with GitHub**, and they're in.
+When ready to go live:
+
+1. Netlify Dashboard → your site → **Domain management → Add custom domain** → `mauisdeli.com`.
+2. At the domain registrar, either switch nameservers to Netlify DNS, **or** add the CNAME / A records Netlify shows you.
+3. Netlify auto-provisions a free Let's Encrypt SSL cert once DNS resolves (usually a few minutes).
 
 ---
 
-## Local Testing (without GitHub, for you)
+## Local Testing (without Netlify, for you)
 
 Want to preview CMS edits locally before pushing?
 
 ```bash
 # In the project root:
 npx decap-server
-# Then open index.html via any local server, and visit /admin/
+# Then in another terminal:
+python3 -m http.server 8000
+# Open http://localhost:8000/admin/
 ```
 
-Decap auto-detects local mode (because `local_backend: true` is set) and writes to the local `/data/` files directly. No GitHub needed.
+Decap auto-detects local mode (because `local_backend: true` is set) and writes to the local `/data/` files directly. No Netlify Identity needed for local testing.
 
 For basic static preview (no CMS edits):
 
@@ -116,18 +101,20 @@ python3 -m http.server 8000
 
 ## What happens when the owner saves
 
-1. Owner edits something in `/admin/`.
-2. Decap commits the change to the GitHub repo (as the owner's GitHub user).
-3. Cloudflare Pages sees the new commit and auto-redeploys in ~30 seconds.
+1. Owner edits something in Maui's Office (`/admin/`).
+2. Decap CMS authenticates the owner via Netlify Identity, then publishes through Git Gateway — which commits the change to the GitHub repo.
+3. Netlify sees the new commit and auto-redeploys in ~30 seconds.
 4. The public site is updated.
 
-Every edit is tracked in Git history, so nothing's ever lost — you can always roll back.
+Every edit is tracked in Git history, so nothing's ever lost — you can always roll back in GitHub.
 
 ---
 
 ## Troubleshooting
 
 - **"Config Error" on /admin/** → Check `admin/config.yml` YAML indentation. Two spaces, no tabs.
-- **Login redirects but doesn't finish** → OAuth callback URL mismatch. Double-check it's exactly `https://your-worker.workers.dev/callback`.
-- **Images don't appear after upload** → Make sure `media_folder: "assets/uploads"` and the folder exists (even if empty) in the repo.
-- **Changes don't show on live site** → Check the Cloudflare Pages build log. Each CMS save should trigger a new deploy.
+- **"You must be authorized" loop on login** → Confirm Identity is **Enabled**, registration is **Invite only**, the user has been invited and accepted the invite, and **Git Gateway** is enabled in the Identity settings.
+- **Login works but Publish fails** → Almost always a Git Gateway issue. Toggle Git Gateway off and on again under Identity → Services. If that fails, re-authorize the GitHub connection.
+- **Images don't appear after upload** → Make sure `media_folder: "assets/uploads"` is set in `admin/config.yml` and the folder exists in the repo (even if empty).
+- **Changes don't show on live site** → Check the Netlify deploy log for the latest commit. Each CMS save should trigger a new deploy. If the commit landed but Netlify didn't deploy, check **Site configuration → Build & deploy → Continuous deployment** is on.
+- **Security headers not showing up** → Confirm `_headers` is at the repo root (not inside `assets/` or `admin/`) and was included in the latest deploy. Netlify only serves it from the publish root.
