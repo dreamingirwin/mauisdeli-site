@@ -1,8 +1,8 @@
 {
   "sections": {
     "featured": true,
-    "subOfWeek": true,
-    "specials": true,
+    "subOfWeek": false,
+    "specials": false,
     "shop": true,
     "community": true,
     "breakfastComingSoon": true
