@@ -52,6 +52,28 @@ function hasImage(url) {
   return typeof url === 'string' && url.trim().length > 0;
 }
 
+// Safe URL helper for admin-controlled link fields (e.g. community buttonLink).
+// Allows: relative links (e.g. "specials.html#community"), local absolute paths
+// (e.g. "/contact.html"), and explicit https:// links. Anything else (including
+// javascript:, data:, vbscript:, file:, http://, mailto:, tel:) returns ''.
+// Returning '' is a signal the caller should skip rendering the link.
+function safeURL(raw) {
+  if (typeof raw !== 'string') return '';
+  const url = raw.trim();
+  if (!url) return '';
+  // Reject protocol-relative URLs ("//evil.com") — they inherit the page scheme.
+  if (url.startsWith('//')) return '';
+  // Local relative path or fragment/query: "specials.html", "specials.html#community", "?x=1", "#top"
+  if (/^[a-zA-Z0-9_\-./?#][^:]*$/.test(url) && !/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(url)) {
+    return url;
+  }
+  // Local absolute path: "/contact.html"
+  if (url.startsWith('/')) return url;
+  // Explicit https only
+  if (/^https:\/\//i.test(url)) return url;
+  return '';
+}
+
 // ---------- Renderers ----------
 
 // Community announcement strip
@@ -488,8 +510,9 @@ async function renderCommunityBoard(targetId, options) {
       ? `<div class="community-card-image"><img src="${escapeHTML(post.image)}" alt="${escapeHTML(post.title)}" loading="lazy"></div>`
       : '';
     const dateStr = post.date ? formatPostDate(post.date) : '';
-    const cta = (post.buttonText && post.buttonLink)
-      ? `<a class="community-card-cta" href="${escapeHTML(post.buttonLink)}" target="_blank" rel="noopener">${escapeHTML(post.buttonText)} →</a>`
+    const safeLink = safeURL(post.buttonLink);
+    const cta = (post.buttonText && safeLink)
+      ? `<a class="community-card-cta" href="${escapeHTML(safeLink)}" target="_blank" rel="noopener noreferrer">${escapeHTML(post.buttonText)} →</a>`
       : '';
 
     if (layout === 'list') {
