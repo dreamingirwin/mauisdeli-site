@@ -2,7 +2,7 @@
   "items": [
     {
       "showInNeighborhoodFavorites": false,
-      "price": 6,
+      "price": "",
       "name": "Breakfast Sandwich",
       "slug": "breakfast-sandwich",
       "weeklySpecialDays": [],
@@ -14,7 +14,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 10,
+      "price": "",
       "name": "Breakfast Burrito",
       "slug": "breakfast-burrito",
       "weeklySpecialDays": [],
@@ -26,7 +26,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 12,
+      "price": "",
       "name": "BLT Sandwich",
       "slug": "blt-sandwich",
       "weeklySpecialDays": [],
@@ -38,7 +38,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 12,
+      "price": "",
       "name": "Roast Beef Sandwich",
       "slug": "roast-beef-sandwich",
       "weeklySpecialDays": [],
@@ -50,7 +50,7 @@
     },
     {
       "showInNeighborhoodFavorites": true,
-      "price": 12,
+      "price": "",
       "name": "Meatball Sub",
       "slug": "meatball-sub",
       "weeklySpecialDays": [
@@ -64,7 +64,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 12,
+      "price": "",
       "name": "Chicken Salad Sandwich",
       "slug": "chicken-salad-sandwich",
       "weeklySpecialDays": [],
@@ -76,7 +76,7 @@
     },
     {
       "showInNeighborhoodFavorites": true,
-      "price": 14,
+      "price": "",
       "name": "Club Sandwich",
       "slug": "club-sandwich",
       "weeklySpecialDays": [],
@@ -88,7 +88,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 12,
+      "price": "",
       "name": "Philly Cheesesteak",
       "slug": "philly-cheesesteak",
       "weeklySpecialDays": [],
@@ -100,7 +100,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 12,
+      "price": "",
       "name": "Chicken Sandwich",
       "slug": "chicken-sandwich",
       "weeklySpecialDays": [],
@@ -112,7 +112,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 6,
+      "price": "",
       "name": "Greek Salad",
       "slug": "greek-salad",
       "weeklySpecialDays": [],
@@ -124,7 +124,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 6,
+      "price": 0,
       "name": "Garden Salad",
       "slug": "garden-salad",
       "weeklySpecialDays": [],
@@ -136,7 +136,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 6,
+      "price": "",
       "name": "Caesar Salad",
       "slug": "caesar-salad",
       "weeklySpecialDays": [],
@@ -148,7 +148,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 3,
+      "price": "",
       "name": "Add Chicken to Any Salad",
       "slug": "add-chicken-to-any-salad",
       "weeklySpecialDays": [],
@@ -160,7 +160,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 13,
+      "price": "",
       "name": "Steak Tacos",
       "slug": "steak-tacos",
       "weeklySpecialDays": [],
@@ -172,7 +172,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 13,
+      "price": "",
       "name": "Shrimp Tacos",
       "slug": "shrimp-tacos",
       "weeklySpecialDays": [],
@@ -184,7 +184,7 @@
     },
     {
       "showInNeighborhoodFavorites": true,
-      "price": 11,
+      "price": "",
       "name": "Chicken Tacos",
       "slug": "chicken-tacos",
       "weeklySpecialDays": [
@@ -198,7 +198,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 14,
+      "price": "",
       "name": "Steak Burrito",
       "slug": "steak-burrito",
       "weeklySpecialDays": [],
@@ -210,7 +210,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 12,
+      "price": "",
       "name": "Chicken Burrito",
       "slug": "chicken-burrito",
       "weeklySpecialDays": [],
@@ -222,7 +222,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 13,
+      "price": "",
       "name": "Steak Quesadilla",
       "slug": "steak-quesadilla",
       "weeklySpecialDays": [],
@@ -234,7 +234,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 13,
+      "price": "",
       "name": "Shrimp Quesadilla",
       "slug": "shrimp-quesadilla",
       "weeklySpecialDays": [],
@@ -246,7 +246,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 11,
+      "price": "",
       "name": "Chicken Quesadilla",
       "slug": "chicken-quesadilla",
       "weeklySpecialDays": [
@@ -260,7 +260,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 14,
+      "price": "",
       "name": "Steak Taco Bowl",
       "slug": "steak-taco-bowl",
       "weeklySpecialDays": [],
@@ -272,7 +272,7 @@
     },
     {
       "showInNeighborhoodFavorites": true,
-      "price": 12,
+      "price": "",
       "name": "Chicken Taco Bowl",
       "slug": "chicken-taco-bowl",
       "weeklySpecialDays": [],
@@ -284,7 +284,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 9,
+      "price": "",
       "name": "Cheese Empanadas",
       "slug": "cheese-empanadas",
       "weeklySpecialDays": [],
@@ -296,7 +296,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 11,
+      "price": "",
       "name": "Beef Empanadas",
       "slug": "beef-empanadas",
       "weeklySpecialDays": [],
@@ -308,7 +308,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 11,
+      "price": "",
       "name": "Chicken Empanadas",
       "slug": "chicken-empanadas",
       "weeklySpecialDays": [],
@@ -320,7 +320,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 11,
+      "price": "",
       "name": "Ham Empanadas",
       "slug": "ham-empanadas",
       "weeklySpecialDays": [],
@@ -332,7 +332,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 15,
+      "price": "",
       "name": "Loaded Fries",
       "slug": "loaded-fries",
       "weeklySpecialDays": [],
@@ -356,7 +356,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 12,
+      "price": "",
       "name": "Maui's Wrap",
       "slug": "mauis-wrap",
       "weeklySpecialDays": [],
@@ -368,7 +368,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 3,
+      "price": "",
       "name": "Add Fries to Sandwich",
       "slug": "add-fries-to-sandwich",
       "weeklySpecialDays": [],
@@ -380,7 +380,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 5,
+      "price": "",
       "name": "Side of Fries",
       "slug": "side-of-fries",
       "weeklySpecialDays": [],
@@ -392,7 +392,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 2.5,
+      "price": "",
       "name": "Hot Coffee",
       "slug": "hot-coffee",
       "weeklySpecialDays": [],
@@ -404,7 +404,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 2.99,
+      "price": "",
       "name": "Iced Coffee",
       "slug": "iced-coffee",
       "weeklySpecialDays": [],
@@ -416,7 +416,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 3,
+      "price": "",
       "name": "Espresso",
       "slug": "espresso",
       "weeklySpecialDays": [],
@@ -428,7 +428,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 4.5,
+      "price": "",
       "name": "Latte",
       "slug": "latte",
       "weeklySpecialDays": [],
@@ -440,7 +440,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 4.5,
+      "price": "",
       "name": "Iced Latte",
       "slug": "iced-latte",
       "weeklySpecialDays": [],
@@ -452,7 +452,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": 0.5,
+      "price": "",
       "name": "Flavor Shot",
       "slug": "flavor-shot",
       "weeklySpecialDays": [],
