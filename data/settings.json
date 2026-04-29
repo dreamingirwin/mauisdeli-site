@@ -10,6 +10,6 @@
   "comingSoon": {
     "breakfast": true,
     "iceCream": false,
-    "beerWine": true
+    "beerWine": false
   }
 }
