@@ -1,6 +1,6 @@
 {
   "sections": {
-    "featured": false,
+    "featured": true,
     "subOfWeek": true,
     "specials": true,
     "shop": true,
