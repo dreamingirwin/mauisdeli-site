@@ -9,7 +9,7 @@
   },
   "comingSoon": {
     "breakfast": true,
-    "iceCream": true,
+    "iceCream": false,
     "beerWine": true
   }
 }
