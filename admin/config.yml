@@ -12,8 +12,8 @@ media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
 
 # Show a friendly site URL after saving
-site_url: https://lighthearted-babka-70d564.netlify.app
-display_url: https://lighthearted-babka-70d564.netlify.app
+site_url: https://mauisdeli.com
+display_url: https://mauisdeli.com
 logo_url: /assets/images/flame.svg
 
 # ============================================================
