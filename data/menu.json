@@ -38,7 +38,7 @@
     },
     {
       "showInNeighborhoodFavorites": false,
-      "price": "100",
+      "price": "",
       "name": "Roast Beef Sandwich",
       "slug": "roast-beef-sandwich",
       "weeklySpecialDays": [],
