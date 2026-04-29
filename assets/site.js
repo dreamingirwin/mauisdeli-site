@@ -35,10 +35,28 @@ async function loadJSON(url) {
 
 // ---------- Formatters ----------
 function fmtPrice(p) {
-  if (p === null || p === undefined || p === '') return '';
-  const n = typeof p === 'number' ? p : parseFloat(String(p).replace(/[^0-9.]/g, ''));
-  if (isNaN(n)) return '';
-  return '$' + n.toFixed(2).replace(/\.00$/, '');
+  // Blank cases: no price displayed at all
+  if (p === null || p === undefined) return '';
+  if (typeof p === 'string' && p.trim() === '') return '';
+
+  // Pure number: format as money
+  if (typeof p === 'number') {
+    if (isNaN(p)) return '';
+    return '$' + p.toFixed(2).replace(/\.00$/, '');
+  }
+
+  // String: try to parse as money. Accept "12", "12.50", "$12", "$12.50",
+  // optionally with whitespace. Anything else (e.g. "Market price",
+  // "Ask about today's price") is passed through unchanged so the owner can
+  // type custom price text.
+  const s = String(p).trim();
+  const moneyMatch = s.match(/^\$?\s*(\d+(?:\.\d+)?)\s*$/);
+  if (moneyMatch) {
+    const n = parseFloat(moneyMatch[1]);
+    if (!isNaN(n)) return '$' + n.toFixed(2).replace(/\.00$/, '');
+  }
+  // Custom text — show as the owner typed it.
+  return s;
 }
 
 function escapeHTML(s) {
@@ -561,10 +579,25 @@ function formatPostDate(iso) {
 // ============================================================
 async function applySettings() {
   const data = await loadJSON('data/settings.json');
-  if (!data || !data.sections) return;
-  document.querySelectorAll('[data-section]').forEach(el => {
-    const key = el.getAttribute('data-section');
-    if (data.sections[key] === false) {
+  if (!data) return;
+
+  // Whole-section visibility (settings.sections)
+  if (data.sections) {
+    document.querySelectorAll('[data-section]').forEach(el => {
+      const key = el.getAttribute('data-section');
+      if (data.sections[key] === false) {
+        el.style.display = 'none';
+      }
+    });
+  }
+
+  // Small "Coming Soon" notes (settings.comingSoon)
+  // Element shows only when its corresponding flag is explicitly true.
+  // Anything else (false, missing, null) = hidden.
+  document.querySelectorAll('[data-coming-soon]').forEach(el => {
+    const key = el.getAttribute('data-coming-soon');
+    const flag = data.comingSoon && data.comingSoon[key];
+    if (flag !== true) {
       el.style.display = 'none';
     }
   });

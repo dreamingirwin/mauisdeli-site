@@ -41,7 +41,7 @@ collections:
               - { label: "Item Name", name: "name", widget: "string" }
               - { label: "Slug (auto-generated identifier)", name: "slug", widget: "string", required: true, hint: "Letters/numbers/dashes only. Used by Sub of the Week to point at this item. If you change the name, edit this too (e.g. 'turkey-club')." }
               - { label: "Description", name: "description", widget: "text", required: false }
-              - { label: "Price ($)", name: "price", widget: "number", value_type: "float", step: 0.01, required: false }
+              - { label: "Price", name: "price", widget: "string", required: false, hint: "Examples: 12, 12.50, $12, Market price, Ask about today's price, or leave blank." }
               - label: "Category"
                 name: "category"
                 widget: "select"
@@ -124,7 +124,7 @@ collections:
           - { label: "Short promo line", name: "promo", widget: "string", required: false, default: "Sub of the Week", hint: "e.g. 'Sub of the Week' or 'This week only'." }
           - { label: "— Manual fallback (used only if no menu item picked above) —", name: "name", widget: "string", required: false, hint: "Only fill this in to spotlight something not on the regular menu." }
           - { label: "Manual description", name: "description", widget: "text", required: false }
-          - { label: "Manual price ($)", name: "price", widget: "number", value_type: "float", step: 0.01, required: false }
+          - { label: "Manual price", name: "price", widget: "string", required: false, hint: "Examples: 12, 12.50, $12, Market price, or leave blank." }
           - { label: "Manual photo", name: "image", widget: "image", required: false }
 
   # ----------------------------------------------------------
@@ -149,7 +149,7 @@ collections:
               - { label: "Day or label", name: "label", widget: "string", required: false, hint: "e.g. 'Monday' or 'Weekend Special'" }
               - { label: "Title", name: "title", widget: "string" }
               - { label: "Description", name: "description", widget: "text", required: false }
-              - { label: "Price ($)", name: "price", widget: "number", value_type: "float", step: 0.01, required: false }
+              - { label: "Price", name: "price", widget: "string", required: false, hint: "Examples: 9.99, $9.99, or leave blank." }
 
   # ----------------------------------------------------------
   # 5. COMMUNITY BOARD (new section)
@@ -258,27 +258,28 @@ collections:
   # ----------------------------------------------------------
   - name: "settings"
     label: "⚙️ Settings"
-    description: "Turn homepage sections on/off and flip 'coming soon' labels."
+    description: "Two kinds of controls: (1) Homepage Section Visibility hides whole sections of the homepage, (2) Coming Soon Notes shows or hides small notes like 'Coming soon: beer & wine.' Note: to mark a single menu item as 'Coming Soon', open that item in 🍽️ Menu Items and set its Status field — that's controlled per-item, not here."
     files:
       - name: "settings"
         label: "Site Settings"
         file: "data/settings.json"
         format: "json"
         fields:
-          - label: "Homepage sections (show or hide)"
+          - label: "Homepage Section Visibility"
             name: "sections"
             widget: "object"
+            hint: "Turn whole homepage sections on or off."
             fields:
-              - { label: "Neighborhood Favorites", name: "featured", widget: "boolean", default: true }
-              - { label: "Sub of the Week", name: "subOfWeek", widget: "boolean", default: true }
-              - { label: "Weekly Specials", name: "specials", widget: "boolean", default: true }
-              - { label: "In the Shop", name: "shop", widget: "boolean", default: true }
-              - { label: "Community Board", name: "community", widget: "boolean", default: true }
-              - { label: "Breakfast Coming Soon", name: "breakfastComingSoon", widget: "boolean", default: true }
-          - label: "Coming Soon labels"
+              - { label: "Show 'Neighborhood Favorites' section", name: "featured", widget: "boolean", default: true }
+              - { label: "Show 'Sub of the Week' section", name: "subOfWeek", widget: "boolean", default: true }
+              - { label: "Show 'Weekly Specials' section", name: "specials", widget: "boolean", default: true }
+              - { label: "Show 'In the Shop' section", name: "shop", widget: "boolean", default: true }
+              - { label: "Show 'Community Board' section", name: "community", widget: "boolean", default: true }
+              - { label: "Show 'Breakfast Coming Soon' section", name: "breakfastComingSoon", widget: "boolean", default: true, hint: "The whole breakfast-teaser section near the bottom of the homepage." }
+          - label: "Coming Soon Notes"
             name: "comingSoon"
             widget: "object"
+            hint: "Small one-line notes inside the 'In the Shop' section. These are independent of menu item Status."
             fields:
-              - { label: "Breakfast coming soon", name: "breakfast", widget: "boolean", default: true }
-              - { label: "Ice cream coming soon", name: "iceCream", widget: "boolean", default: false }
-              - { label: "Beer & wine coming soon", name: "beerWine", widget: "boolean", default: true }
+              - { label: "Show 'Coming soon: beer & wine.' note", name: "beerWine", widget: "boolean", default: true }
+              - { label: "Show 'Coming soon: more ice cream options.' note", name: "iceCream", widget: "boolean", default: false }
