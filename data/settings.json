@@ -5,11 +5,11 @@
     "specials": true,
     "shop": true,
     "community": true,
-    "breakfastComingSoon": false
+    "breakfastComingSoon": true
   },
   "comingSoon": {
     "breakfast": true,
     "iceCream": false,
-    "beerWine": false
+    "beerWine": true
   }
 }
